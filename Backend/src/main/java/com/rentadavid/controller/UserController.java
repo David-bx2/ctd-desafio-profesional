@@ -2,50 +2,45 @@ package com.rentadavid.controller;
 
 import com.rentadavid.model.User;
 import com.rentadavid.service.UserService;
-import com.rentadavid.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    private UserService userService;
-
-    @GetMapping
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    @PostMapping("/register") // <- esta parte también
+    // ✅ Registro de usuario
+    @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
-        if (userRepository.existsByEmail(user.getEmail())) {
-            return ResponseEntity.badRequest().body("El correo ya está registrado");
+        try {
+            User newUser = userService.registerUser(user);
+            return ResponseEntity.ok(newUser);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-
-        User savedUser = userService.registerUser(user);
-        return ResponseEntity.ok(savedUser);
     }
 
-    @PutMapping("/{id}/toggle-admin")
-    public ResponseEntity<?> toggleAdmin(@PathVariable Long id) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            user.setAdmin(!user.isAdmin());
-            userRepository.save(user);
-            return ResponseEntity.ok("Permiso de administrador actualizado");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
+    // ✅ Reenvío de confirmación
+    @PostMapping("/resend-confirmation")
+    public ResponseEntity<?> resendConfirmation(@RequestBody Map<String, String> body) {
+        String email = body.get("email");
+        try {
+            userService.resendConfirmationEmail(email);
+            return ResponseEntity.ok("Correo de confirmación reenviado correctamente.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error al reenviar el correo.");
         }
     }
 }
