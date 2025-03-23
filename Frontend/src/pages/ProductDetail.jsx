@@ -4,6 +4,7 @@ import axios from "axios";
 import ProductGallery from "../Components/ProductGallery"; // Importa el nuevo componente de galería
 import "../styles/ProductDetail.css";
 
+
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -27,11 +28,27 @@ const ProductDetail = () => {
     <div className="product-detail-container">
       <button className="back-button" onClick={() => navigate(-1)}>← Volver</button>
       <h1 className="product-title">{product.name}</h1>
+      <p className="product-category">Categoría: {product.category ? product.category.name : "Sin categoría"}</p>
       
-      {/* 📌 Integramos la galería aquí */}
       <ProductGallery images={product.imageUrls} />
 
       <p className="product-description">{product.description}</p>
+
+      {/* Bloque de Características */}
+      <div className="product-features mt-4">
+        <h3>Características</h3>
+        <div className="features-grid">
+          {product.features?.map((feature) => (
+            <div key={feature.id} className="feature-card">
+              <img src={feature.icon} alt={feature.name} className="feature-icon" />
+              <div>
+                <strong>{feature.name}</strong>
+                <p>{feature.detail}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

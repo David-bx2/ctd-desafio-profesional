@@ -4,6 +4,7 @@ import com.rentadavid.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import java.util.Optional;
 
 import java.util.List;
 
@@ -14,4 +15,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findRandomProducts();
 
     boolean existsByName(String name);
+
+    // Nuevo método para encontrar productos por categoría
+    List<Product> findByCategoryId(Long categoryId);
+
+    Optional<Product> findByName(String name);
+
 }
+

@@ -11,14 +11,16 @@ const Home = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/products/random");
-        setProducts(response.data);
+        const response = await axios.get("http://localhost:8080/api/products");
+        const shuffled = [...response.data].sort(() => Math.random() - 0.5); // Mezclar
+        setProducts(shuffled);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
     };
     fetchProducts();
   }, []);
+  
 
   // 🔹 Calcular el índice de productos a mostrar
   const totalPages = Math.ceil(products.length / itemsPerPage);
@@ -40,13 +42,24 @@ const Home = () => {
         ))}
       </div>
 
-      {/* 🔹 Controles de paginación */}
-      <div className="pagination">
-        <button onClick={goToFirstPage} disabled={currentPage === 1}>Inicio</button>
-        <button onClick={prevPage} disabled={currentPage === 1}>Anterior</button>
-        <span>Página {currentPage} de {totalPages}</span>
-        <button onClick={nextPage} disabled={currentPage === totalPages}>Siguiente</button>
-      </div>
+{/* 🔹 Controles de paginación */}
+<div className="pagination">
+  <button onClick={goToFirstPage} disabled={currentPage === 1}>Inicio</button>
+  <button onClick={prevPage} disabled={currentPage === 1}>Anterior</button>
+
+  {/* Botones de páginas */}
+  {Array.from({ length: totalPages }, (_, i) => (
+    <button
+      key={i + 1}
+      onClick={() => setCurrentPage(i + 1)}
+      className={currentPage === i + 1 ? "active" : ""}
+    >
+      {i + 1}
+    </button>
+  ))}
+
+  <button onClick={nextPage} disabled={currentPage === totalPages}>Siguiente</button>
+</div>
     </div>
   );
 };

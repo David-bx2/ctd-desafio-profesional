@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -7,13 +7,43 @@ const AddProduct = () => {
     name: "",
     description: "",
     images: [],
+    categoryId: "",
+    selectedFeatures: [], // 👈 Para manejar selección de características
   });
 
+  const [categories, setCategories] = useState([]);
+  const [features, setFeatures] = useState([]); // 👈 Lista de características
   const [imageFiles, setImageFiles] = useState([]);
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [catRes, featRes] = await Promise.all([
+          axios.get("http://localhost:8080/api/categories"),
+          axios.get("http://localhost:8080/api/features")
+        ]);
+        setCategories(catRes.data);
+        setFeatures(featRes.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
   const handleChange = (e) => {
     setProduct({ ...product, [e.target.name]: e.target.value });
+  };
+
+  const handleFeatureToggle = (featureId) => {
+    setProduct(prev => {
+      const exists = prev.selectedFeatures.includes(featureId);
+      const updated = exists
+        ? prev.selectedFeatures.filter(id => id !== featureId)
+        : [...prev.selectedFeatures, featureId];
+      return { ...prev, selectedFeatures: updated };
+    });
   };
 
   const handleImageUpload = (e) => {
@@ -24,36 +54,38 @@ const AddProduct = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        let imageUrls = [];
+      let imageUrls = [];
 
-        // Subir imágenes primero
-        if (imageFiles.length > 0) {
-            for (let i = 0; i < imageFiles.length; i++) {
-                const formData = new FormData();
-                formData.append("file", imageFiles[i]);
-                formData.append("productName", product.name);  // Enviar el nombre del producto
-                
-                const uploadResponse = await axios.post("http://localhost:8080/api/uploads/image", formData, {
-                    headers: { "Content-Type": "multipart/form-data" }
-                });
+      for (let file of imageFiles) {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("productName", product.name);
 
-                imageUrls.push(uploadResponse.data); // Guardar la URL de la imagen
-            }
-        }
+        const uploadRes = await axios.post("http://localhost:8080/api/uploads/image", formData, {
+          headers: { "Content-Type": "multipart/form-data" }
+        });
 
-        // Luego enviar el producto con las imágenes
-        const productData = { ...product, imageUrls };
-        await axios.post("http://localhost:8080/api/products", productData);
+        imageUrls.push(uploadRes.data);
+      }
 
-        alert("Producto agregado correctamente");
-        setProduct({ name: "", description: "", imageUrls: [] });
-        setImageFiles([]);
-        setError("");
+      const productData = {
+        name: product.name,
+        description: product.description,
+        imageUrls,
+        category: { id: parseInt(product.categoryId) },
+        features: product.selectedFeatures.map(id => ({ id }))
+      };
+
+      await axios.post("http://localhost:8080/api/products", productData);
+
+      alert("Producto agregado correctamente");
+      setProduct({ name: "", description: "", images: [], categoryId: "", selectedFeatures: [] });
+      setImageFiles([]);
+      setError("");
     } catch (error) {
-        setError(error.response?.data || "Error al agregar el producto");
+      setError(error.response?.data || "Error al agregar el producto");
     }
-};
-
+  };
 
   return (
     <div className="container mt-5">
@@ -61,15 +93,43 @@ const AddProduct = () => {
       {error && <p className="text-danger">{error}</p>}
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label className="form-label">Nombre:</label>
+          <label>Nombre:</label>
           <input type="text" name="name" className="form-control" value={product.name} onChange={handleChange} required />
         </div>
         <div className="mb-3">
-          <label className="form-label">Descripción:</label>
+          <label>Descripción:</label>
           <textarea name="description" className="form-control" value={product.description} onChange={handleChange} required />
         </div>
         <div className="mb-3">
-          <label className="form-label">Imágenes:</label>
+          <label>Categoría:</label>
+          <select name="categoryId" className="form-control" value={product.categoryId} onChange={handleChange} required>
+            <option value="">Selecciona una categoría</option>
+            {categories.map((cat) => (
+              <option key={cat.id} value={cat.id}>{cat.name}</option>
+            ))}
+          </select>
+        </div>
+        <div className="mb-3">
+          <label>Características:</label>
+          <div className="form-check">
+            {features.map((feat) => (
+              <div key={feat.id}>
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  id={`feature-${feat.id}`}
+                  checked={product.selectedFeatures.includes(feat.id)}
+                  onChange={() => handleFeatureToggle(feat.id)}
+                />
+                <label className="form-check-label" htmlFor={`feature-${feat.id}`}>
+                  {feat.name} ({feat.icon})
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="mb-3">
+          <label>Imágenes:</label>
           <input type="file" className="form-control" multiple onChange={handleImageUpload} />
           <div className="mt-2">
             {imageFiles.map((file, index) => (
@@ -77,9 +137,12 @@ const AddProduct = () => {
             ))}
           </div>
         </div>
-        <button type="submit" className="btn btn-primary">Guardar Producto</button>
+        <div className="d-flex justify-content-center gap-3 mt-4">
+          <button type="submit" className="btn btn-dark">Guardar Producto</button>
+          <Link to="/administracion" className="btn btn-dark">⬅️ Volver al Panel</Link>
+        </div>
       </form>
-      <Link to="/administracion" className="btn btn-dark">⬅️ Volver al Panel</Link>
+
     </div>
   );
 };

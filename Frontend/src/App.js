@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import { useState } from "react";
 import Header from "./pages/Header";
 import Home from "./pages/Home";
 import ProductDetail from "./pages/ProductDetail";
@@ -6,17 +7,37 @@ import AddProduct from "./pages/AddProduct";
 import Footer from "./Components/Footer";
 import AdminPanel from "./pages/AdminPanel";
 import ProductList from "./Components/ProductList";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import FeatureList from "./Components/FeatureList";
+import EditProduct from "./Components/EditProduct";
 
 function App() {
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+  
   return (
     <Router>
-      <Header />
+      <Header user={user} setUser={setUser} />
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<ProductDetail />} />
-        <Route path="/add-product" element={<AddProduct />} />
-        <Route path="/administracion" element={<AdminPanel />} />
-        <Route path="/admin/products" element={<ProductList />} />
+        <Route path="/add-product" element={user?.isAdmin ?<AddProduct />: <Navigate to="/" />} />
+        <Route
+  path="/administracion"
+  element={user?.isAdmin ? <AdminPanel /> : <Navigate to="/" />}
+/>
+        <Route path="/admin/products" element={user?.isAdmin ?<ProductList />: <Navigate to="/" />} />
+        <Route
+          path="/admin/features"
+          element={user?.isAdmin ? <FeatureList /> : <Navigate to="/" />}
+        />
+        <Route path="/admin/edit-product/:id" element={user?.isAdmin ?<EditProduct /> : <Navigate to="/" />} />
+        <Route path="/login" element={<Login setUser={setUser} />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
       <Footer />
     </Router>

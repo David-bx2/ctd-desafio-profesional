@@ -19,14 +19,13 @@ const ProductList = () => {
     fetchProducts();
   }, []);
 
-  // ✅ Función para eliminar un producto
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm("¿Seguro que deseas eliminar este producto?");
     if (!confirmDelete) return;
 
     try {
       await axios.delete(`http://localhost:8080/api/products/${id}`);
-      setProducts(products.filter((product) => product.id !== id)); // 🔥 Actualiza la lista
+      setProducts(products.filter((product) => product.id !== id)); 
     } catch (error) {
       console.error("Error al eliminar el producto:", error);
     }
@@ -40,6 +39,7 @@ const ProductList = () => {
           <tr>
             <th>ID</th>
             <th>Nombre</th>
+            <th>Categoría</th> {/* ✅ Nueva columna */}
             <th>Acciones</th>
           </tr>
         </thead>
@@ -49,6 +49,7 @@ const ProductList = () => {
               <tr key={product.id}>
                 <td>{product.id}</td>
                 <td>{product.name}</td>
+                <td>{product.category ? product.category.name : "Sin categoría"}</td> {/* ✅ Mostrar categoría */}
                 <td>
                   <Link to={`/product/${product.id}`} className="btn btn-info">
                     🔍 Ver
@@ -64,11 +65,14 @@ const ProductList = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="3">No hay productos disponibles</td>
+              <td colSpan="4">No hay productos disponibles</td> {/* ✅ Ajustar colspan */}
             </tr>
           )}
         </tbody>
       </table>
+      <Link to="/admin/features" className="btn btn-dark">
+                  ⚙️ Administrar Características
+                </Link>
       <Link to="/administracion" className="btn btn-dark">⬅️ Volver al Panel</Link>
     </div>
   );
