@@ -47,13 +47,17 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    public List<Product> getProductsByCategoryIds(List<Long> categoryIds) {
+        return productRepository.findByCategoryIdIn(categoryIds);
+    }
+    
+
     public Product updateProduct(Long id, Product updatedProduct) {
         Optional<Product> optionalProduct = productRepository.findById(id);
         if (optionalProduct.isEmpty()) {
             throw new NoSuchElementException("Producto no encontrado");
         }
     
-        // ⚠️ Verificamos si otro producto tiene el mismo nombre
         Optional<Product> existing = productRepository.findByName(updatedProduct.getName());
         if (existing.isPresent() && !existing.get().getId().equals(id)) {
             throw new IllegalArgumentException("Ya existe un producto con este nombre.");

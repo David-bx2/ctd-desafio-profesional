@@ -32,17 +32,19 @@ const AdminPanel = () => {
 
       <ul className="admin-menu">
         <li>
-          <Link to="/add-product" className="btn btn-success">📦 Agregar Producto</Link>
+          <Link to="/add-product" className="btn btn-secondary">📦 Agregar Producto</Link>
         </li>
         <li>
-          <Link to="/admin/products" className="btn btn-primary">📋 Lista de Productos</Link>
+          <Link to="/admin/products" className="btn btn-secondary">📋 Lista de Productos</Link>
         </li>
-
+        <li>
+        <Link to="/admin/categorias" className="btn btn-secondary">🗃️ Agregar Categoría</Link>
+        </li>
         <li>
           <Link to="/admin/users" className="btn btn-secondary">👥 Gestionar Usuarios</Link>
         </li>
         <li>
-          <Link to="/admin/reservations" className="btn btn-info">📅 Gestionar Reservas</Link>
+          <Link to="/admin/reservations" className="btn btn-secondary">📅 Gestionar Reservas</Link>
         </li>
         <li>
           <Link to="/" className="btn btn-dark">🏠 Volver al Inicio</Link>

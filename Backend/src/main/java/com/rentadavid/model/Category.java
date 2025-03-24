@@ -13,6 +13,9 @@ public class Category {
     @Column(unique = true, nullable = false)
     private String name;
 
+    private String description;
+    private String imageUrl; 
+
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     @JsonIgnore 
     private List<Product> products;
@@ -31,4 +34,10 @@ public class Category {
 
     public List<Product> getProducts() { return products; }
     public void setProducts(List<Product> products) { this.products = products; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public String getImageUrl() { return imageUrl;}
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 }

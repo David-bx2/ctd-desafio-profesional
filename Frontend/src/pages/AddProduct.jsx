@@ -8,11 +8,11 @@ const AddProduct = () => {
     description: "",
     images: [],
     categoryId: "",
-    selectedFeatures: [], // 👈 Para manejar selección de características
+    selectedFeatures: [],
   });
 
   const [categories, setCategories] = useState([]);
-  const [features, setFeatures] = useState([]); // 👈 Lista de características
+  const [features, setFeatures] = useState([]); 
   const [imageFiles, setImageFiles] = useState([]);
   const [error, setError] = useState("");
 

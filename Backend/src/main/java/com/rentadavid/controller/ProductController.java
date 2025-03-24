@@ -131,6 +131,12 @@ public class ProductController {
         }
     }
     
+        @GetMapping("/filter")
+        public ResponseEntity<List<Product>> getProductsByCategoryIds(@RequestParam List<Long> categories) {
+        List<Product> products = productService.getProductsByCategoryIds(categories);
+        return ResponseEntity.ok(products);
+    }
+
     
 
 }

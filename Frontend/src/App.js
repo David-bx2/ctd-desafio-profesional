@@ -11,6 +11,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import FeatureList from "./Components/FeatureList";
 import EditProduct from "./Components/EditProduct";
+import AddCategory from "./Components/AddCategory";
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -36,6 +37,7 @@ function App() {
           element={user?.isAdmin ? <FeatureList /> : <Navigate to="/" />}
         />
         <Route path="/admin/edit-product/:id" element={user?.isAdmin ?<EditProduct /> : <Navigate to="/" />} />
+        <Route path="/admin/categorias" element={user?.isAdmin ?<AddCategory />: <Navigate to="/" />} />
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/register" element={<Register />} />
       </Routes>

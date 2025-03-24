@@ -1,9 +1,24 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../Components/assets/logo.png";
 
 const Header = ({ user, setUser }) => {
   const [showMenu, setShowMenu] = useState(false);
+  const menuRef = useRef();
+  const navigate = useNavigate();
+
+  // Cierra el menú si haces clic fuera
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setShowMenu(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const getInitials = (name) => {
     return name
@@ -16,6 +31,12 @@ const Header = ({ user, setUser }) => {
     localStorage.removeItem("user");
     setUser(null);
     setShowMenu(false);
+    navigate("/"); // Opcional: redirige al home
+  };
+
+  const handleNavigate = (path) => {
+    setShowMenu(false);
+    navigate(path);
   };
 
   return (
@@ -26,12 +47,12 @@ const Header = ({ user, setUser }) => {
           <span>Los Mejores Autos</span>
         </Link>
 
-        <div className="position-relative">
+        <div className="position-relative" ref={menuRef}>
           {user ? (
             <div
               className="d-flex align-items-center text-white"
               style={{ cursor: "pointer" }}
-              onClick={() => setShowMenu(!showMenu)}
+              onClick={() => setShowMenu((prev) => !prev)}
             >
               <div
                 style={{
@@ -61,18 +82,20 @@ const Header = ({ user, setUser }) => {
             </>
           )}
 
-          {/* 🔽 Menú desplegable */}
           {showMenu && (
             <div
               className="dropdown-menu show mt-2"
               style={{ right: 0, left: "auto", position: "absolute" }}
             >
               {user?.isAdmin && (
-              <Link to="/administracion" className="dropdown-item" style={{ textDecoration: "none", color: "black" }}>
-                Panel Admin
-              </Link>
+                <button
+                  className="dropdown-item"
+                  onClick={() => handleNavigate("/administracion")}
+                >
+                  Panel Admin
+                </button>
               )}
-              <button className="dropdown-item"  onClick={handleLogout}>
+              <button className="dropdown-item" onClick={handleLogout}>
                 Cerrar Sesión
               </button>
             </div>

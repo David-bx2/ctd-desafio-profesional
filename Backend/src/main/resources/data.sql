@@ -1,4 +1,15 @@
--- Insertar productos
+INSERT INTO category ( name) VALUES
+( 'Sedán'),
+( 'SUV'),
+( 'Deportivo'),
+( 'Eléctrico'),
+( 'Pickup'),
+( 'Familiar'),
+( 'Motocicleta'),
+( 'Furgoneta'),
+( 'Convertible'),
+( 'Clásico');
+
 INSERT INTO product (name, description) VALUES 
 ('Auto Deportivo', 'Un auto rápido y elegante'),
 ('Camioneta 4x4', 'Ideal para terrenos difíciles'),
@@ -11,7 +22,7 @@ INSERT INTO product (name, description) VALUES
 ('Pickup Todo Terreno', 'Potencia para cualquier aventura'),
 ('Auto Clásico Vintage', 'Estilo retro que nunca pasa de moda');
 
--- Insertar imágenes asociadas
+
 INSERT INTO product_imageurls (product_id, image_url) VALUES
 (1, 'img/deportivo1.jpg'), (1, 'img/deportivo2.jpg'), (1, 'img/deportivo3.jpg'),
 (2, 'img/camioneta1.jpg'), (2, 'img/camioneta2.jpg'), (2, 'img/camioneta3.jpg'),
@@ -24,23 +35,11 @@ INSERT INTO product_imageurls (product_id, image_url) VALUES
 (9, 'img/pickup1.jpg'), (9, 'img/pickup2.jpg'), (9, 'img/pickup3.jpg'),
 (10, 'img/clasico1.jpg'), (10, 'img/clasico2.jpg'), (10, 'img/clasico3.jpg');
 
--- Inserción de categorías en la tabla 'category'
-INSERT INTO category (id, name) VALUES
-(1, 'Sedán'),
-(2, 'SUV'),
-(3, 'Deportivo'),
-(4, 'Eléctrico'),
-(5, 'Pickup'),
-(6, 'Familiar'),
-(7, 'Motocicleta'),
-(8, 'Furgoneta'),
-(9, 'Convertible'),
-(10, 'Clásico');
 
 INSERT INTO users (id, admin, email, first_name, last_name, password)
 VALUES (1, TRUE, 'josedavid-12@hotmail.com', 'Jose', 'Fernandez', '$2a$10$SGah9jcYTNSsJd5hI315hegkfHl6zPNfYQdgaOb6K6F8vXKx1H0aC');
 
-INSERT INTO feature (id, name, icon, detalle) VALUES
-(1, 'GPS', 'img/icon1.jpg', 'Ubicación en tiempo real'),
-(2, 'Bluetooth', 'img/icon2.jpg', 'Conexión a dispositivos móviles'),
-(3, 'Aire acondicionado', 'img/icon3.jpg', 'Climatización automática');
+INSERT INTO feature ( name, icon, detalle) VALUES
+( 'GPS', 'img/icon1.jpg', 'Ubicación en tiempo real'),
+( 'Bluetooth', 'img/icon2.jpg', 'Conexión a dispositivos móviles'),
+( 'Aire acondicionado', 'img/icon3.jpg', 'Climatización automática');
