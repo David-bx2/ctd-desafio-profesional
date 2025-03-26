@@ -28,7 +28,9 @@ const ProductDetail = () => {
 
   return (
     <div className="product-detail-container">
-      <button className="back-button" onClick={() => navigate(-1)}>← Volver</button>
+      <div className="back-button">
+      <button className="btn btn-dark" onClick={() => navigate(-1)}>⬅️ Volver</button>
+      </div>
       <h1 className="product-title">{product.name}</h1>
       <p className="product-category">Categoría: {product.category ? product.category.name : "Sin categoría"}</p>
       

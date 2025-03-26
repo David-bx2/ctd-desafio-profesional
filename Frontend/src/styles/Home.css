@@ -100,7 +100,7 @@ body {
   color: #555;
 }
 
-/* Responsivo */
+
 @media (max-width: 768px) {
   .category-filter {
     padding: 10px;
@@ -125,7 +125,7 @@ body {
   padding: 20px;
 }
 
-/* Mostrar el filtro como columna izquierda */
+
 .category-filter {
   flex: 0 0 250px;
   background-color: #f8f9fa;
@@ -134,7 +134,7 @@ body {
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* Botón solo visible en mobile */
+
 .filter-toggle-btn {
   display: none;
   margin: 10px auto;
@@ -150,6 +150,7 @@ body {
 @media screen and (max-width: 768px) {
   .home-content {
     flex-direction: column;
+    padding: 0px;
   }
 
   .filter-toggle-btn {

@@ -95,6 +95,9 @@ const Header = ({ user, setUser }) => {
                   Panel Admin
                 </button>
               )}
+                  <button className="dropdown-item" onClick={() => handleNavigate("/favorites")}>
+                    Mis Favoritos
+                  </button>
               <button className="dropdown-item" onClick={handleLogout}>
                 Cerrar Sesión
               </button>
