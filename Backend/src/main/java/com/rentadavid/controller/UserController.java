@@ -19,7 +19,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    // ✅ Registro de usuario
+
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         try {
@@ -30,7 +30,7 @@ public class UserController {
         }
     }
 
-    // ✅ Reenvío de confirmación
+
     @PostMapping("/resend-confirmation")
     public ResponseEntity<?> resendConfirmation(@RequestBody Map<String, String> body) {
         String email = body.get("email");

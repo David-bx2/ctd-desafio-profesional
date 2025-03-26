@@ -46,4 +46,9 @@ public class UserService {
         String loginLink = "http://localhost:3000/login";
         emailService.enviarConfirmacionRegistro(user.getEmail(), user.getFirstName(), user.getLastName(), loginLink);
     }
+
+    public Optional<User> getUserById(Long id) {
+        return userRepository.findById(id);
+    }
+    
 }

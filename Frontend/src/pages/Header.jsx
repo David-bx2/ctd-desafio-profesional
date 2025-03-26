@@ -31,7 +31,7 @@ const Header = ({ user, setUser }) => {
     localStorage.removeItem("user");
     setUser(null);
     setShowMenu(false);
-    navigate("/"); // Opcional: redirige al home
+    navigate("/"); 
   };
 
   const handleNavigate = (path) => {
