@@ -43,3 +43,17 @@ INSERT INTO feature ( name, icon, detalle) VALUES
 ( 'GPS', 'img/icon1.jpg', 'Ubicación en tiempo real'),
 ( 'Bluetooth', 'img/icon2.jpg', 'Conexión a dispositivos móviles'),
 ( 'Aire acondicionado', 'img/icon3.jpg', 'Climatización automática');
+
+
+INSERT INTO booking (start_date, end_date, product_id) VALUES
+('2025-04-10', '2025-04-12', 1),
+('2025-04-15', '2025-04-18', 2),
+('2025-04-20', '2025-04-22', 3),
+('2025-04-25', '2025-04-27', 4),
+('2025-04-13', '2025-04-14', 5),
+('2025-04-17', '2025-04-19', 6),
+('2025-04-22', '2025-04-24', 7),
+('2025-04-28', '2025-04-30', 8),
+('2025-04-10', '2025-04-11', 9),
+('2025-04-18', '2025-04-20', 10);
+

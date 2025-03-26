@@ -19,5 +19,10 @@ public class BookingService {
     public List<Booking> findBookingsBetween(LocalDate start, LocalDate end) {
         return bookingRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(end, start);
     }
+
+    public List<Booking> findByProductId(Long productId) {
+        return bookingRepository.findByProductId(productId);
+    }
+    
 }
 

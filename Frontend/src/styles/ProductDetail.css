@@ -91,4 +91,28 @@ footer {
   object-fit: contain;
 }
 
+.product-availability {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
 
+.availability-toggle button {
+  min-width: 220px;
+}
+
+.availability-calendar {
+  display: flex;
+  justify-content: center;
+}
+
+.rdrDayDisabled {
+  background-color: #ffcccc !important;     
+  opacity: 1 !important;               
+  pointer-events: none;
+}
+
+.rdrDayDisabled span span {
+  color: #a10000 !important;
+}

@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.NoSuchElementException;
+import java.util.ArrayList;
 
 
 
@@ -169,6 +170,22 @@ public class ProductController {
             List<Product> results = productService.searchByKeyword(keyword.trim());
             return ResponseEntity.ok(results);
         }
+
+        @GetMapping("/unavailable-dates")
+public ResponseEntity<List<LocalDate>> getUnavailableDates(@RequestParam Long productId) {
+    List<Booking> bookings = bookingService.findByProductId(productId);
+    List<LocalDate> unavailableDates = new ArrayList<>();
+
+    for (Booking booking : bookings) {
+        LocalDate current = booking.getStartDate();
+        while (!current.isAfter(booking.getEndDate())) {
+            unavailableDates.add(current);
+            current = current.plusDays(1);
+        }
+    }
+
+    return ResponseEntity.ok(unavailableDates);
+}
 
 
 }

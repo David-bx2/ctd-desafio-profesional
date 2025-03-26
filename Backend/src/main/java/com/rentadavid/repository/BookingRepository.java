@@ -11,5 +11,8 @@ import java.util.List;
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     List<Booking> findByStartDateLessThanEqualAndEndDateGreaterThanEqual(LocalDate end, LocalDate start);
+
+    List<Booking> findByProductId(Long productId);
+
 }
 

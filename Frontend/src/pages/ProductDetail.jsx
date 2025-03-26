@@ -1,7 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import ProductGallery from "../Components/ProductGallery"; // Importa el nuevo componente de galería
+import ProductGallery from "../Components/ProductGallery"; 
+import AvailabilityCalendar from "../Components/AvailabilityCalendar";
 import "../styles/ProductDetail.css";
 
 
@@ -9,6 +10,7 @@ const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
+  const [showCalendar, setShowCalendar] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -34,7 +36,7 @@ const ProductDetail = () => {
 
       <p className="product-description">{product.description}</p>
 
-      {/* Bloque de Características */}
+
       <div className="product-features mt-4">
         <h3>Características</h3>
         <div className="features-grid">
@@ -49,6 +51,21 @@ const ProductDetail = () => {
           ))}
         </div>
       </div>
+      <div className="product-availability mt-4">
+  <h3>Disponibilidad</h3>
+  <div className="availability-toggle text-center mt-3">
+    <button className="btn btn-primary" onClick={() => setShowCalendar(!showCalendar)}>
+      {showCalendar ? "Ocultar disponibilidad" : "Consultar disponibilidad"}
+    </button>
+  </div>
+
+  {showCalendar && (
+    <div className="availability-calendar mt-3">
+      <AvailabilityCalendar productId={product.id} />
+    </div>
+  )}
+</div>
+
     </div>
   );
 };
