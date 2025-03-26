@@ -1,5 +1,8 @@
 package com.rentadavid.service;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.NoSuchElementException;
 import com.rentadavid.model.Product;
 import com.rentadavid.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +74,18 @@ public class ProductService {
         product.setFeatures(updatedProduct.getFeatures());
     
         return productRepository.save(product);
+    }
+    
+    public List<Product> getAvailableProductsExcluding(List<Long> excludedIds) {
+        if (excludedIds.isEmpty()) {
+            return productRepository.findAll();
+        } else {
+            return productRepository.findByIdNotIn(excludedIds);
+        }
+    }
+
+    public List<Product> searchByKeyword(String keyword) {
+        return productRepository.findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(keyword, keyword);
     }
     
     

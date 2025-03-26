@@ -139,7 +139,7 @@ const AddProduct = () => {
         </div>
         <div className="d-flex justify-content-center gap-3 mt-4">
           <button type="submit" className="btn btn-dark">Guardar Producto</button>
-          <Link to="/administracion" className="btn btn-dark">⬅️ Volver al Panel</Link>
+          <Link to="/admin" className="btn btn-dark">⬅️ Volver al Panel</Link>
         </div>
       </form>
 

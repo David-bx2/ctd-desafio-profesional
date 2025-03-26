@@ -6,6 +6,10 @@ import com.rentadavid.model.Product;
 import com.rentadavid.model.Category;
 import com.rentadavid.service.ProductService;
 import com.rentadavid.repository.CategoryRepository;
+import com.rentadavid.model.Booking;
+import com.rentadavid.service.BookingService;
+import org.springframework.format.annotation.DateTimeFormat;
+import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -137,6 +141,34 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
-    
+        @Autowired
+    private BookingService bookingService;
+
+    @GetMapping("/available")
+    public ResponseEntity<List<Product>> getAvailableProducts(
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
+        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end) {
+
+        List<Booking> overlappingBookings = bookingService.findBookingsBetween(start, end);
+        List<Long> reservedProductIds = overlappingBookings.stream()
+            .map(b -> b.getProduct().getId())
+            .distinct()
+            .toList();
+
+        List<Product> availableProducts = productService.getAvailableProductsExcluding(reservedProductIds);
+        return ResponseEntity.ok(availableProducts);
+}
+
+        @GetMapping("/search")
+        public ResponseEntity<List<Product>> searchByKeyword(@RequestParam(required = false) String keyword) {
+            if (keyword == null || keyword.trim().isEmpty()) {
+                // Si no hay keyword, devolvemos lista vacía
+                return ResponseEntity.ok(Collections.emptyList());
+            }
+
+            List<Product> results = productService.searchByKeyword(keyword.trim());
+            return ResponseEntity.ok(results);
+        }
+
 
 }

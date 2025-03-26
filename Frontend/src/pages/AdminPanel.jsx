@@ -32,7 +32,7 @@ const AdminPanel = () => {
 
       <ul className="admin-menu">
         <li>
-          <Link to="/add-product" className="btn btn-secondary">📦 Agregar Producto</Link>
+          <Link to="/admin/add-product" className="btn btn-secondary">📦 Agregar Producto</Link>
         </li>
         <li>
           <Link to="/admin/products" className="btn btn-secondary">📋 Lista de Productos</Link>

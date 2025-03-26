@@ -90,7 +90,7 @@ const Header = ({ user, setUser }) => {
               {user?.isAdmin && (
                 <button
                   className="dropdown-item"
-                  onClick={() => handleNavigate("/administracion")}
+                  onClick={() => handleNavigate("/admin")}
                 >
                   Panel Admin
                 </button>

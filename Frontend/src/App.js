@@ -26,9 +26,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<ProductDetail />} />
-        <Route path="/add-product" element={user?.isAdmin ?<AddProduct />: <Navigate to="/" />} />
+        <Route path="/admin/add-product" element={user?.isAdmin ?<AddProduct />: <Navigate to="/" />} />
         <Route
-  path="/administracion"
+  path="/admin"
   element={user?.isAdmin ? <AdminPanel /> : <Navigate to="/" />}
 />
         <Route path="/admin/products" element={user?.isAdmin ?<ProductList />: <Navigate to="/" />} />

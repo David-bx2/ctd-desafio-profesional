@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ProductCard from "../Components/ProductCard";
+import SearchBlock from "../Components/SearchBlock";
 import "../styles/Home.css";
 
 const Home = () => {
@@ -9,7 +10,10 @@ const Home = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchPerformed, setSearchPerformed] = useState(false);
+  const [searchResults, setSearchResults] = useState(null);
   const itemsPerPage = 10;
 
   useEffect(() => {
@@ -32,6 +36,8 @@ const Home = () => {
         const shuffled = [...res.data].sort(() => Math.random() - 0.5);
         setProducts(shuffled);
         setFilteredProducts(shuffled);
+        setSearchPerformed(false);
+        setSearchResults(null);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -69,7 +75,26 @@ const Home = () => {
 
   const clearFilters = () => setSelectedCategories([]);
 
-  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  const handleSearchResults = (results) => {
+    setSearchResults(results);
+    setSearchPerformed(true);
+    setCurrentPage(1);
+  };
+
+  let renderMode = "featured"; 
+  if (searchPerformed) {
+    if (searchResults && searchResults.length > 0) {
+      renderMode = "search";
+    } else {
+      renderMode = "no-results";
+    }
+  }
+
+  const totalPages = Math.ceil(
+    (renderMode === "search"
+      ? searchResults?.length || 0
+      : filteredProducts.length) / itemsPerPage
+  );
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentProducts = filteredProducts.slice(startIndex, startIndex + itemsPerPage);
 
@@ -79,7 +104,14 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <h1 className="home-title">Productos Destacados</h1>
+      <div className="d-flex justify-content-center my-3">
+        <button className="btn btn-primary" onClick={() => setShowSearch(!showSearch)}>
+          {showSearch ? "Ocultar Buscador" : "Mostrar Buscador"}
+        </button>
+      </div>
+      {showSearch && <SearchBlock onSearchResults={handleSearchResults} />}
+
+      {!searchPerformed && <h1 className="home-title">Productos Destacados</h1>}
 
       <button className="filter-toggle-btn" onClick={() => setShowFilter(!showFilter)}>
         {showFilter ? "Ocultar Filtros" : "Mostrar Filtros"}
@@ -106,14 +138,32 @@ const Home = () => {
             </button>
           )}
           <p className="mt-2">
-            Mostrando {filteredProducts.length} de {products.length} productos
+            Mostrando {renderMode === "search" ? searchResults?.length || 0 : filteredProducts.length} de {products.length} productos
           </p>
         </div>
 
         <div className="product-grid">
-          {currentProducts.map(product => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+          {renderMode === "search" && (
+            <>
+              <h4 className="text-center w-100">Resultados encontrados</h4>
+              <div className="empty-card"></div>
+              {searchResults.slice(startIndex, startIndex + itemsPerPage).map(product => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </>
+          )}
+
+          {renderMode === "no-results" && (
+            <div className="text-center w-100">
+              <h4>No se encontraron resultados</h4>
+            </div>
+          )}
+
+          {renderMode === "featured" && (
+            currentProducts.map(product => (
+              <ProductCard key={product.id} product={product} />
+            ))
+          )}
         </div>
       </div>
 

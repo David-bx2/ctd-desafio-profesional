@@ -73,7 +73,7 @@ const ProductList = () => {
       <Link to="/admin/features" className="btn btn-dark">
                   ⚙️ Administrar Características
                 </Link>
-      <Link to="/administracion" className="btn btn-dark">⬅️ Volver al Panel</Link>
+      <Link to="/admin" className="btn btn-dark">⬅️ Volver al Panel</Link>
     </div>
   );
 };

@@ -167,5 +167,16 @@ body {
   .product-grid {
     margin-top: 10px;
   }
+
+  .btn-primary {
+    margin-top: 10px;
+  }
+
+  .empty-card {
+    visibility: hidden;
+    height: 0;
+    box-shadow: none;
+  }
+  
 }
 
