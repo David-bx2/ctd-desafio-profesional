@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { FaStar, FaRegStar } from "react-icons/fa";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import axios from "axios";
 import "../styles/ProductCard.css";
 
@@ -12,16 +12,16 @@ const ProductCard = ({ product }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const [isFavorite, setIsFavorite] = useState(false);
   const [animate, setAnimate] = useState(false);
+  const [ratingInfo, setRatingInfo] = useState({ average: null, count: 0 });
 
   useEffect(() => {
+    if (!product.id) return;
+
     const checkFavorite = async () => {
       if (!user) return;
       try {
-        const res = await axios.get(`http://localhost:8080/api/favorites/check`, {
-          params: {
-            userId: user.id,
-            productId: product.id
-          }
+        const res = await axios.get("http://localhost:8080/api/favorites/check", {
+          params: { userId: user.id, productId: product.id }
         });
         setIsFavorite(res.data);
       } catch (err) {
@@ -29,21 +29,31 @@ const ProductCard = ({ product }) => {
       }
     };
 
+    const fetchRating = async () => {
+      try {
+        const res = await axios.get(`http://localhost:8080/api/reviews/product/${product.id}/average`);
+        setRatingInfo(res.data);
+      } catch (err) {
+        console.error("Error obteniendo promedio de reviews:", err);
+      }
+    };
+
     checkFavorite();
+    fetchRating();
   }, [product.id, user]);
 
   const toggleFavorite = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     if (!user) return;
 
     try {
       if (isFavorite) {
-        await axios.delete(`http://localhost:8080/api/favorites`, {
+        await axios.delete("http://localhost:8080/api/favorites", {
           params: { userId: user.id, productId: product.id }
         });
         setIsFavorite(false);
       } else {
-        await axios.post(`http://localhost:8080/api/favorites`, null, {
+        await axios.post("http://localhost:8080/api/favorites", null, {
           params: { userId: user.id, productId: product.id }
         });
         setIsFavorite(true);
@@ -64,12 +74,17 @@ const ProductCard = ({ product }) => {
           onClick={toggleFavorite}
           title={isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"}
         >
-          {isFavorite ? <FaStar color="gold" size={20} /> : <FaRegStar size={20} />}
+{isFavorite ? <FaHeart color="red" size={20} /> : <FaRegHeart size={20} />}
         </div>
       )}
 
       <Link to={`/product/${product.id}`}>
         <img src={mainImage} alt={product.name} className="product-image" />
+        {ratingInfo.average !== null && (
+          <div className="rating-summary mb-2">
+            ⭐ {ratingInfo.average.toFixed(1)} ({ratingInfo.count})
+          </div>
+        )}
         <h3>{product.name}</h3>
       </Link>
     </div>

@@ -1,9 +1,10 @@
-// ProductDetail.jsx (actualizado con botón compartir ajustado y modal)
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ProductGallery from "../Components/ProductGallery"; 
 import AvailabilityCalendar from "../Components/AvailabilityCalendar";
+import ReviewList from "../Components/ReviewList";
+import ReviewForm from "../Components/ReviewForm";
 import {
   FacebookShareButton,
   TwitterShareButton,
@@ -15,13 +16,14 @@ import {
 import { Share2 } from "react-feather";
 import "../styles/ProductDetail.css";
 
-const ProductDetail = () => {
+const ProductDetail = ({ user }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [showCalendar, setShowCalendar] = useState(false);
   const [showShare, setShowShare] = useState(false);
   const [customMessage, setCustomMessage] = useState("");
+  const [reloadReviews, setReloadReviews] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -34,6 +36,10 @@ const ProductDetail = () => {
     };
     fetchProduct();
   }, [id]);
+
+  const handleReviewSubmitted = () => {
+    setReloadReviews(!reloadReviews);
+  };
 
   if (!product) return <p>Cargando...</p>;
 
@@ -48,9 +54,9 @@ const ProductDetail = () => {
       <h1 className="product-title">{product.name}</h1>
       <p className="product-category">Categoría: {product.category ? product.category.name : "Sin categoría"}</p>
 
-      <div className="d-flex justify-content-end mb-3">
-        <button className="btn btn-outline-primary" onClick={() => setShowShare(true)}>
-          <Share2 size={18} className="me-1" /> Compartir
+      <div className="d-flex justify-content-end">
+        <button className="btn btn-outline-primary mt-2" onClick={() => setShowShare(true)}>
+          <Share2 size={18} className="me-2" /> Compartir
         </button>
       </div>
 
@@ -85,6 +91,13 @@ const ProductDetail = () => {
             <AvailabilityCalendar productId={product.id} />
           </div>
         )}
+      </div>
+
+      {/* Sección de valoraciones */}
+      <div className="product-reviews mt-5">
+        <h3 className="section-title">Valoraciones</h3>
+        <ReviewList productId={product.id} key={reloadReviews} />
+        {user && <ReviewForm productId={product.id} userId={user.id} onReviewSubmitted={handleReviewSubmitted} />}
       </div>
 
       <div className="product-policies mt-5">

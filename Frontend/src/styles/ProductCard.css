@@ -50,3 +50,14 @@
     100% { transform: scale(1); }
   }
   
+  .rating-summary {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    justify-content: center;
+  }
+  
