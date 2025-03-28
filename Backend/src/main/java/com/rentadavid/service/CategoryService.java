@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryService {
@@ -24,5 +25,12 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
+    public void deleteCategory(Long id) {
+        Optional<Category> category = categoryRepository.findById(id);
+        if (category.isPresent() && !category.get().getProducts().isEmpty()) {
+            throw new RuntimeException("La categoría tiene productos asociados.");
+        }
+        categoryRepository.deleteById(id);
+    }
     
 }

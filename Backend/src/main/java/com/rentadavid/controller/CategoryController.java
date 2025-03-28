@@ -36,5 +36,12 @@ public class CategoryController {
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
+        categoryService.deleteCategory(id);
+        return ResponseEntity.ok().build();
+}
+
 }
 

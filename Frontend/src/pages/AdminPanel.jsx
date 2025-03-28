@@ -38,7 +38,7 @@ const AdminPanel = () => {
           <Link to="/admin/products" className="btn btn-secondary">📋 Lista de Productos</Link>
         </li>
         <li>
-        <Link to="/admin/categorias" className="btn btn-secondary">🗃️ Agregar Categoría</Link>
+        <Link to="/admin/categorias" className="btn btn-secondary">🗃️ Gestionar Categorías</Link>
         </li>
         <li>
           <Link to="/admin/users" className="btn btn-secondary">👥 Gestionar Usuarios</Link>
