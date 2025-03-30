@@ -9,7 +9,6 @@ const Login = ({ setUser }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  // Leemos un posible mensaje desde location.state
   const location = useLocation();
   const alertMsg = location.state?.message || "";
 

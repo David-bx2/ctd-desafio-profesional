@@ -96,7 +96,7 @@ const Home = () => {
       : filteredProducts.length) / itemsPerPage
   );
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentProducts = filteredProducts.slice(startIndex, startIndex + itemsPerPage);
+  const currentProducts = (renderMode === "search" ? searchResults : filteredProducts).slice(startIndex, startIndex + itemsPerPage);
 
   const nextPage = () => setCurrentPage(prev => (prev < totalPages ? prev + 1 : prev));
   const prevPage = () => setCurrentPage(prev => (prev > 1 ? prev - 1 : prev));

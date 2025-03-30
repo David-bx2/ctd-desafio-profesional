@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import axios from "axios";
@@ -9,16 +9,17 @@ const ProductCard = ({ product }) => {
     ? product.imageUrls[0]
     : "/assets/default.jpg";
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  const userRef = useRef(JSON.parse(localStorage.getItem("user")));
+  const user = userRef.current;
+
   const [isFavorite, setIsFavorite] = useState(false);
   const [animate, setAnimate] = useState(false);
   const [ratingInfo, setRatingInfo] = useState({ average: null, count: 0 });
 
   useEffect(() => {
-    if (!product.id) return;
+    if (!product.id || !user) return;
 
     const checkFavorite = async () => {
-      if (!user) return;
       try {
         const res = await axios.get("http://localhost:8080/api/favorites/check", {
           params: { userId: user.id, productId: product.id }
@@ -40,7 +41,7 @@ const ProductCard = ({ product }) => {
 
     checkFavorite();
     fetchRating();
-  }, [product.id, user]);
+  }, [product.id]); // ✅ user fuera de dependencias
 
   const toggleFavorite = async (e) => {
     e.preventDefault();
@@ -74,7 +75,7 @@ const ProductCard = ({ product }) => {
           onClick={toggleFavorite}
           title={isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"}
         >
-{isFavorite ? <FaHeart color="red" size={20} /> : <FaRegHeart size={20} />}
+          {isFavorite ? <FaHeart color="red" size={20} /> : <FaRegHeart size={20} />}
         </div>
       )}
 

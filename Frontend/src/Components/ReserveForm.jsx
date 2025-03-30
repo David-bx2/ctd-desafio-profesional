@@ -1,4 +1,4 @@
-// ReserveForm.jsx (reemplazando estilos inline por ReserveForm.css)
+// ReserveForm.jsx (actualizado para redirigir a una pantalla de detalles en lugar de crear reserva de una vez)
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -24,7 +24,6 @@ const ReserveForm = () => {
       key: "selection",
     },
   ]);
-  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -52,20 +51,14 @@ const ReserveForm = () => {
     fetchUnavailableDates();
   }, [id]);
 
-  const handleReserve = async () => {
-    try {
-      const start = range[0].startDate.toISOString().split("T")[0];
-      const end = range[0].endDate.toISOString().split("T")[0];
+  // Cambiamos la lógica para redirigir al detalle de reserva
+  const handleNext = () => {
+    // Tomamos las fechas elegidas
+    const start = range[0].startDate.toISOString().split("T")[0];
+    const end = range[0].endDate.toISOString().split("T")[0];
 
-      await axios.post("http://localhost:8080/api/bookings", null, {
-        params: { productId: id, start, end },
-      });
-
-      setMessage("Reserva creada con éxito.");
-    } catch (err) {
-      console.error(err);
-      setMessage(err.response?.data || "Error al crear la reserva");
-    }
+    // Redirigimos a /reservation-detail con query params
+    navigate(`/reservation-detail?productId=${id}&start=${start}&end=${end}`);
   };
 
   if (!product) return <p>Cargando datos del producto...</p>;
@@ -74,7 +67,6 @@ const ReserveForm = () => {
     <div className="reserve-form-container">
       <div className="reserve-form-inner">
         <h2 className="text-center">Reservar: {product.name}</h2>
-        {message && <div className="alert alert-info text-center">{message}</div>}
 
         <div className="calendar-wrapper">
           <DateRange
@@ -97,8 +89,8 @@ const ReserveForm = () => {
         </div>
 
         <div className="button-group">
-          <button className="btn btn-dark" onClick={handleReserve}>
-            Confirmar Reserva
+          <button className="btn btn-primary" onClick={handleNext}>
+            Siguiente
           </button>
           <button className="btn btn-secondary" onClick={() => navigate(-1)}>
             Volver

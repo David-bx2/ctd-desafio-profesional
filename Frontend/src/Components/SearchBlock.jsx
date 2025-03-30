@@ -1,5 +1,5 @@
 
-import { useState} from "react";
+import { useState, useRef} from "react";
 import { DateRange } from "react-date-range";
 import { addDays } from "date-fns";
 import axios from "axios";
@@ -11,6 +11,7 @@ import { es } from "date-fns/locale";
 const SearchBlock = ({ onSearchResults }) => {
   const [keyword, setKeyword] = useState("");
   const [suggestions, setSuggestions] = useState([]);
+  const debounceRef = useRef(null);
   const [selectionRange, setSelectionRange] = useState({
     startDate: new Date(),
     endDate: addDays(new Date(), 1),
@@ -25,11 +26,16 @@ const SearchBlock = ({ onSearchResults }) => {
     const value = e.target.value;
     setKeyword(value);
 
+    // Cancelamos cualquier llamada previa
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+
     if (value.length >= 2) {
-      axios
-        .get(`http://localhost:8080/api/products/search?keyword=${value}`)
-        .then((res) => setSuggestions(res.data.map(p => p.name)))
-        .catch((err) => console.error("Error en autocompletado:", err));
+      debounceRef.current = setTimeout(() => {
+        axios
+          .get(`http://localhost:8080/api/products/search?keyword=${value}`)
+          .then((res) => setSuggestions(res.data.map(p => p.name)))
+          .catch((err) => console.error("Error en autocompletado:", err));
+      }, 400); // Espera 400ms antes de hacer la petición
     } else {
       setSuggestions([]);
     }
