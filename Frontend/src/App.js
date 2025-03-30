@@ -16,6 +16,7 @@ import Favorites from "./pages/Favorites";
 import ReserveForm from "./Components/ReserveForm";
 import ReservationDetail from "./Components/ReservationDetail";
 import MyBookings from "./pages/MyBookings";
+import WhatsappChatButton from "./Components/WhatsappChatButton";
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -49,6 +50,7 @@ function App() {
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/register" element={<Register />} />
       </Routes>
+      <WhatsappChatButton />
       <Footer />
     </Router>
   );
