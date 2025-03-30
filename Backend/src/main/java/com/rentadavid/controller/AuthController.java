@@ -39,7 +39,7 @@ public class AuthController {
 
         Map<String, Object> userData = new HashMap<>();
         userData.put("id", user.getId());
-        userData.put("name", user.getFirstName() + " " + user.getLastName()); // 👈 Asegúrate que los nombres de los métodos estén bien
+        userData.put("name", user.getFirstName() + " " + user.getLastName());
         userData.put("email", user.getEmail());
         userData.put("isAdmin", user.isAdmin());
 

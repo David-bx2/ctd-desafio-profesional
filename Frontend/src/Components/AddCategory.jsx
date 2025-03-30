@@ -7,7 +7,7 @@ const AddCategory = () => {
   const [category, setCategory] = useState({
     name: "",
     description: "",
-    imageUrl: ""
+    imageUrl: "",
   });
   const [categories, setCategories] = useState([]);
   const [message, setMessage] = useState("");
@@ -54,14 +54,18 @@ const AddCategory = () => {
   const confirmDelete = async () => {
     if (!categoryToDelete) return;
     try {
-      await axios.delete(`http://localhost:8080/api/categories/${categoryToDelete.id}`);
+      await axios.delete(
+        `http://localhost:8080/api/categories/${categoryToDelete.id}`
+      );
       setMessage("Categoría eliminada exitosamente");
       setShowModal(false);
       setCategoryToDelete(null);
       fetchCategories();
     } catch (err) {
       console.error(err);
-      setMessage("Error al eliminar la categoría. Verifica si tiene productos asociados.");
+      setMessage(
+        "Error al eliminar la categoría. Verifica si tiene productos asociados."
+      );
     }
   };
 
@@ -73,12 +77,21 @@ const AddCategory = () => {
   return (
     <div className="container mt-4">
       <div className="d-flex justify-content-end mb-3">
-        <Link to="/admin" className="btn btn-dark">⬅️ Volver al Panel</Link>
+        <Link to="/admin" className="btn btn-dark">
+          ⬅️ Volver al Panel
+        </Link>
       </div>
 
       <div className="mb-3">
-        <button className="btn btn-outline-dark w-100" onClick={() => setShowForm(!showForm)}>
-          {showForm ? <FaChevronUp className="me-2" /> : <FaChevronDown className="me-2" />}
+        <button
+          className="btn btn-outline-dark w-100"
+          onClick={() => setShowForm(!showForm)}
+        >
+          {showForm ? (
+            <FaChevronUp className="me-2" />
+          ) : (
+            <FaChevronDown className="me-2" />
+          )}
           Agregar Categoría
         </button>
       </div>
@@ -118,7 +131,9 @@ const AddCategory = () => {
             />
           </div>
           <div className="d-flex justify-content-center mt-3">
-            <button type="submit" className="btn btn-dark">Guardar</button>
+            <button type="submit" className="btn btn-primary">
+              💾 Guardar
+            </button>
           </div>
         </form>
       )}
@@ -136,7 +151,7 @@ const AddCategory = () => {
           </tr>
         </thead>
         <tbody>
-          {categories.map(cat => (
+          {categories.map((cat) => (
             <tr key={cat.id}>
               <td>{cat.name}</td>
               <td>{cat.description}</td>
@@ -144,7 +159,12 @@ const AddCategory = () => {
                 <img src={cat.imageUrl} alt={cat.name} width="100" />
               </td>
               <td>
-                <button className="btn btn-danger btn-sm" onClick={() => openDeleteModal(cat)}>Eliminar</button>
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => openDeleteModal(cat)}
+                >
+                  🗑️ Eliminar
+                </button>
               </td>
             </tr>
           ))}
@@ -152,19 +172,36 @@ const AddCategory = () => {
       </table>
 
       {showModal && categoryToDelete && (
-        <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+        <div
+          className="modal show d-block"
+          tabIndex="-1"
+          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+        >
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Confirmar eliminación</h5>
               </div>
               <div className="modal-body">
-                <p>¿Estás seguro de que deseas eliminar la categoría "{categoryToDelete.name}"?</p>
-                <p className="text-danger">Esta acción no se puede deshacer. Si hay productos asociados, no se podrá eliminar.</p>
+                <p>
+                  ¿Estás seguro de que deseas eliminar la categoría "
+                  {categoryToDelete.name}"?
+                </p>
+                <p className="text-danger">
+                  Esta acción no se puede deshacer. Si hay productos asociados,
+                  no se podrá eliminar.
+                </p>
               </div>
               <div className="modal-footer">
-                <button onClick={() => setShowModal(false)} className="btn btn-secondary">Cancelar</button>
-                <button onClick={confirmDelete} className="btn btn-danger">Confirmar</button>
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="btn btn-secondary"
+                >
+                  Cancelar
+                </button>
+                <button onClick={confirmDelete} className="btn btn-danger">
+                  Confirmar
+                </button>
               </div>
             </div>
           </div>

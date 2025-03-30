@@ -21,7 +21,10 @@ const AdminPanel = () => {
   if (isMobile) {
     return (
       <div className="admin-restricted">
-        <p>🚫 El Panel de Administración no está disponible en dispositivos móviles.</p>
+        <p>
+          🚫 El Panel de Administración no está disponible en dispositivos
+          móviles.
+        </p>
       </div>
     );
   }
@@ -32,22 +35,25 @@ const AdminPanel = () => {
 
       <ul className="admin-menu">
         <li>
-          <Link to="/admin/add-product" className="btn btn-secondary">📦 Agregar Producto</Link>
+          <Link to="/admin/add-product" className="btn btn-secondary">
+            📦 Agregar Producto
+          </Link>
         </li>
         <li>
-          <Link to="/admin/products" className="btn btn-secondary">📋 Lista de Productos</Link>
+          <Link to="/admin/products" className="btn btn-secondary">
+            📋 Lista de Productos
+          </Link>
         </li>
         <li>
-        <Link to="/admin/categorias" className="btn btn-secondary">🗃️ Gestionar Categorías</Link>
+          <Link to="/admin/categorias" className="btn btn-secondary">
+            🗃️ Gestionar Categorías
+          </Link>
         </li>
+
         <li>
-          <Link to="/admin/users" className="btn btn-secondary">👥 Gestionar Usuarios</Link>
-        </li>
-        <li>
-          <Link to="/admin/reservations" className="btn btn-secondary">📅 Gestionar Reservas</Link>
-        </li>
-        <li>
-          <Link to="/" className="btn btn-dark">🏠 Volver al Inicio</Link>
+          <Link to="/" className="btn btn-dark">
+            🏠 Volver al Inicio
+          </Link>
         </li>
       </ul>
     </div>

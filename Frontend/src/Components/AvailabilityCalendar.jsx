@@ -15,11 +15,15 @@ const AvailabilityCalendar = ({ productId }) => {
     const fetchUnavailableDates = async () => {
       try {
         setError(null);
-        const res = await axios.get(`http://localhost:8080/api/products/unavailable-dates?productId=${productId}`);
-        setUnavailableDates(res.data.map(date => new Date(date)));
+        const res = await axios.get(
+          `http://localhost:8080/api/products/unavailable-dates?productId=${productId}`
+        );
+        setUnavailableDates(res.data.map((date) => new Date(date)));
       } catch (err) {
         console.error("Error al obtener disponibilidad:", err);
-        setError("No se pudo obtener la disponibilidad. Intenta nuevamente más tarde.");
+        setError(
+          "No se pudo obtener la disponibilidad. Intenta nuevamente más tarde."
+        );
       }
     };
 
@@ -27,7 +31,9 @@ const AvailabilityCalendar = ({ productId }) => {
   }, [productId, reloadTrigger]);
 
   const isDateDisabled = (date) => {
-    return unavailableDates.some(d => d.toDateString() === date.toDateString());
+    return unavailableDates.some(
+      (d) => d.toDateString() === date.toDateString()
+    );
   };
 
   return (
@@ -35,7 +41,10 @@ const AvailabilityCalendar = ({ productId }) => {
       {error ? (
         <div className="alert alert-danger text-center">
           <p>{error}</p>
-          <button className="btn btn-outline-danger" onClick={() => setReloadTrigger(prev => prev + 1)}>
+          <button
+            className="btn btn-outline-danger"
+            onClick={() => setReloadTrigger((prev) => prev + 1)}
+          >
             Reintentar
           </button>
         </div>
@@ -44,10 +53,16 @@ const AvailabilityCalendar = ({ productId }) => {
           editableDateInputs={false}
           onChange={() => {}}
           moveRangeOnFirstSelection={false}
-          ranges={[{ startDate: new Date(), endDate: addDays(new Date(), 1), key: "selection" }]}
+          ranges={[
+            {
+              startDate: new Date(),
+              endDate: addDays(new Date(), 1),
+              key: "selection",
+            },
+          ]}
           minDate={new Date()}
           disabledDates={unavailableDates}
-          locale={es} // ✅ idioma aplicado
+          locale={es}
         />
       )}
     </div>

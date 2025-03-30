@@ -21,14 +21,11 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findByUserIdOrderByCreatedAtDesc(Long userId);
 
     @Query("SELECT b FROM Booking b " +
-       "WHERE b.product.id = :productId " +
-       "AND b.startDate <= :end AND b.endDate >= :start")
-List<Booking> findBookingsBetweenDatesAndProduct(
-    @Param("productId") Long productId,
-    @Param("start") LocalDate start,
-    @Param("end") LocalDate end
-);
-
+            "WHERE b.product.id = :productId " +
+            "AND b.startDate <= :end AND b.endDate >= :start")
+    List<Booking> findBookingsBetweenDatesAndProduct(
+            @Param("productId") Long productId,
+            @Param("start") LocalDate start,
+            @Param("end") LocalDate end);
 
 }
-

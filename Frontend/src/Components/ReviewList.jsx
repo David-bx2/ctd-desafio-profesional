@@ -9,12 +9,16 @@ const ReviewList = ({ productId }) => {
 
   useEffect(() => {
     const fetchReviews = async () => {
-      const res = await axios.get(`http://localhost:8080/api/reviews/product/${productId}`);
+      const res = await axios.get(
+        `http://localhost:8080/api/reviews/product/${productId}`
+      );
       setReviews(res.data);
     };
 
     const fetchAverage = async () => {
-      const res = await axios.get(`http://localhost:8080/api/reviews/product/${productId}/average`);
+      const res = await axios.get(
+        `http://localhost:8080/api/reviews/product/${productId}/average`
+      );
       setAverage(res.data.average);
       setCount(res.data.count);
     };
@@ -36,7 +40,9 @@ const ReviewList = ({ productId }) => {
               {[...Array(5)].map((_, i) => (
                 <FaStar key={i} color={i < r.rating ? "#ffc107" : "#e4e5e9"} />
               ))}
-              <span className="ms-2">{r.user.firstName} {r.user.lastName}</span>
+              <span className="ms-2">
+                {r.user.firstName} {r.user.lastName}
+              </span>
               <span className="ms-auto text-muted">{r.date}</span>
             </div>
             {r.comment && <p className="mb-0">{r.comment}</p>}

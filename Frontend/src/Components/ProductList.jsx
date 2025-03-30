@@ -20,12 +20,14 @@ const ProductList = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("¿Seguro que deseas eliminar este producto?");
+    const confirmDelete = window.confirm(
+      "¿Seguro que deseas eliminar este producto?"
+    );
     if (!confirmDelete) return;
 
     try {
       await axios.delete(`http://localhost:8080/api/products/${id}`);
-      setProducts(products.filter((product) => product.id !== id)); 
+      setProducts(products.filter((product) => product.id !== id));
     } catch (error) {
       console.error("Error al eliminar el producto:", error);
     }
@@ -39,7 +41,7 @@ const ProductList = () => {
           <tr>
             <th>ID</th>
             <th>Nombre</th>
-            <th>Categoría</th> {/* ✅ Nueva columna */}
+            <th>Categoría</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -49,15 +51,26 @@ const ProductList = () => {
               <tr key={product.id}>
                 <td>{product.id}</td>
                 <td>{product.name}</td>
-                <td>{product.category ? product.category.name : "Sin categoría"}</td> {/* ✅ Mostrar categoría */}
                 <td>
-                  <Link to={`/product/${product.id}`} className="btn btn-info">
+                  {product.category ? product.category.name : "Sin categoría"}
+                </td>
+                <td>
+                  <Link
+                    to={`/product/${product.id}`}
+                    className="btn btn-primary"
+                  >
                     🔍 Ver
                   </Link>
-                  <Link to={`/admin/edit-product/${product.id}`} className="btn btn-warning">
+                  <Link
+                    to={`/admin/edit-product/${product.id}`}
+                    className="btn btn-primary"
+                  >
                     ✏️ Editar
                   </Link>
-                  <button className="btn btn-danger" onClick={() => handleDelete(product.id)}>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => handleDelete(product.id)}
+                  >
                     🗑️ Eliminar
                   </button>
                 </td>
@@ -65,15 +78,17 @@ const ProductList = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="4">No hay productos disponibles</td> {/* ✅ Ajustar colspan */}
+              <td colSpan="4">No hay productos disponibles</td>
             </tr>
           )}
         </tbody>
       </table>
-      <Link to="/admin/features" className="btn btn-dark">
-                  ⚙️ Administrar Características
-                </Link>
-      <Link to="/admin" className="btn btn-dark">⬅️ Volver al Panel</Link>
+      <Link to="/admin/features" className="btn btn-primary">
+        ⚙️ Administrar Características
+      </Link>
+      <Link to="/admin" className="btn btn-dark">
+        ⬅️ Volver al Panel
+      </Link>
     </div>
   );
 };

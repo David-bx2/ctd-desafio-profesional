@@ -20,7 +20,9 @@ const MyBookings = () => {
       }
 
       try {
-        const res = await axios.get(`http://localhost:8080/api/bookings/user/${user.id}`);
+        const res = await axios.get(
+          `http://localhost:8080/api/bookings/user/${user.id}`
+        );
         setBookings(res.data);
       } catch (err) {
         console.error(err);
@@ -43,17 +45,30 @@ const MyBookings = () => {
       {bookings.map((booking) => (
         <div key={booking.id} className="card mb-3">
           <div className="card-body">
-            <h5 className="card-title">{booking.product?.name || "Producto desconocido"}</h5>
-            <p className="card-text"><strong>Fecha de reserva:</strong> {booking.createdAt}</p>
-            <p className="card-text"><strong>Desde:</strong> {booking.startDate}</p>
-            <p className="card-text"><strong>Hasta:</strong> {booking.endDate}</p>
-            <p className="card-text"><strong>Teléfono:</strong> {booking.phoneNumber || "No registrado"}</p>
+            <h5 className="card-title">
+              {booking.product?.name || "Producto desconocido"}
+            </h5>
+            <p className="card-text">
+              <strong>Fecha de reserva:</strong> {booking.createdAt}
+            </p>
+            <p className="card-text">
+              <strong>Desde:</strong> {booking.startDate}
+            </p>
+            <p className="card-text">
+              <strong>Hasta:</strong> {booking.endDate}
+            </p>
+            <p className="card-text">
+              <strong>Teléfono:</strong>{" "}
+              {booking.phoneNumber || "No registrado"}
+            </p>
           </div>
         </div>
       ))}
-            <div className="d-flex justify-content-center my-3">
-  <button className="btn btn-dark" onClick={() => navigate(-1)}>⬅️ Volver</button>
-</div>
+      <div className="d-flex justify-content-center my-3">
+        <button className="btn btn-dark" onClick={() => navigate(-1)}>
+          ⬅️ Volver
+        </button>
+      </div>
     </div>
   );
 };

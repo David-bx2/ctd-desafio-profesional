@@ -7,7 +7,6 @@ const Header = ({ user, setUser }) => {
   const menuRef = useRef();
   const navigate = useNavigate();
 
-  // Cierra el menú si haces clic fuera
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -31,7 +30,7 @@ const Header = ({ user, setUser }) => {
     localStorage.removeItem("user");
     setUser(null);
     setShowMenu(false);
-    navigate("/"); 
+    navigate("/");
   };
 
   const handleNavigate = (path) => {
@@ -95,12 +94,18 @@ const Header = ({ user, setUser }) => {
                   Panel Admin
                 </button>
               )}
-                  <button className="dropdown-item" onClick={() => handleNavigate("/favorites")}>
-                    Mis Favoritos
-                  </button>
-                  <button className="dropdown-item" onClick={() => handleNavigate("/my-bookings")}>
-                    Mis Reservas
-                  </button>
+              <button
+                className="dropdown-item"
+                onClick={() => handleNavigate("/favorites")}
+              >
+                Mis Favoritos
+              </button>
+              <button
+                className="dropdown-item"
+                onClick={() => handleNavigate("/my-bookings")}
+              >
+                Mis Reservas
+              </button>
               <button className="dropdown-item" onClick={handleLogout}>
                 Cerrar Sesión
               </button>

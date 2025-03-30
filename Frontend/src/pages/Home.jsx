@@ -53,7 +53,9 @@ const Home = () => {
           setFilteredProducts(products);
         } else {
           const query = selectedCategories.join(",");
-          const res = await axios.get(`http://localhost:8080/api/products/filter?categories=${query}`);
+          const res = await axios.get(
+            `http://localhost:8080/api/products/filter?categories=${query}`
+          );
           setFilteredProducts(res.data);
         }
         setCurrentPage(1);
@@ -66,9 +68,9 @@ const Home = () => {
   }, [selectedCategories, products]);
 
   const handleCategoryToggle = (categoryId) => {
-    setSelectedCategories(prev =>
+    setSelectedCategories((prev) =>
       prev.includes(categoryId)
-        ? prev.filter(id => id !== categoryId)
+        ? prev.filter((id) => id !== categoryId)
         : [...prev, categoryId]
     );
   };
@@ -81,7 +83,7 @@ const Home = () => {
     setCurrentPage(1);
   };
 
-  let renderMode = "featured"; 
+  let renderMode = "featured";
   if (searchPerformed) {
     if (searchResults && searchResults.length > 0) {
       renderMode = "search";
@@ -96,16 +98,22 @@ const Home = () => {
       : filteredProducts.length) / itemsPerPage
   );
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentProducts = (renderMode === "search" ? searchResults : filteredProducts).slice(startIndex, startIndex + itemsPerPage);
+  const currentProducts = (
+    renderMode === "search" ? searchResults : filteredProducts
+  ).slice(startIndex, startIndex + itemsPerPage);
 
-  const nextPage = () => setCurrentPage(prev => (prev < totalPages ? prev + 1 : prev));
-  const prevPage = () => setCurrentPage(prev => (prev > 1 ? prev - 1 : prev));
+  const nextPage = () =>
+    setCurrentPage((prev) => (prev < totalPages ? prev + 1 : prev));
+  const prevPage = () => setCurrentPage((prev) => (prev > 1 ? prev - 1 : prev));
   const goToFirstPage = () => setCurrentPage(1);
 
   return (
     <div className="home-container">
       <div className="d-flex justify-content-center my-3">
-        <button className="btn btn-primary" onClick={() => setShowSearch(!showSearch)}>
+        <button
+          className="btn btn-primary"
+          onClick={() => setShowSearch(!showSearch)}
+        >
           {showSearch ? "Ocultar Buscador" : "Mostrar Buscador"}
         </button>
       </div>
@@ -113,14 +121,17 @@ const Home = () => {
 
       {!searchPerformed && <h1 className="home-title">Productos Destacados</h1>}
 
-      <button className="filter-toggle-btn" onClick={() => setShowFilter(!showFilter)}>
+      <button
+        className="filter-toggle-btn"
+        onClick={() => setShowFilter(!showFilter)}
+      >
         {showFilter ? "Ocultar Filtros" : "Mostrar Filtros"}
       </button>
 
       <div className="home-content">
         <div className={`category-filter ${showFilter ? "show" : ""}`}>
           <h4>Filtrar por Categoría</h4>
-          {categories.map(cat => (
+          {categories.map((cat) => (
             <div key={cat.id} className="form-check">
               <input
                 type="checkbox"
@@ -129,16 +140,22 @@ const Home = () => {
                 checked={selectedCategories.includes(cat.id)}
                 onChange={() => handleCategoryToggle(cat.id)}
               />
-              <label className="form-check-label" htmlFor={`cat-${cat.id}`}>{cat.name}</label>
+              <label className="form-check-label" htmlFor={`cat-${cat.id}`}>
+                {cat.name}
+              </label>
             </div>
           ))}
           {selectedCategories.length > 0 && (
-            <button className="btn btn-sm btn-warning mt-2" onClick={clearFilters}>
+            <button className="btn btn-dark" onClick={clearFilters}>
               Limpiar filtros
             </button>
           )}
           <p className="mt-2">
-            Mostrando {renderMode === "search" ? searchResults?.length || 0 : filteredProducts.length} de {products.length} productos
+            Mostrando{" "}
+            {renderMode === "search"
+              ? searchResults?.length || 0
+              : filteredProducts.length}{" "}
+            de {products.length} productos
           </p>
         </div>
 
@@ -147,9 +164,11 @@ const Home = () => {
             <>
               <h4 className="text-center w-100">Resultados encontrados</h4>
               <div className="empty-card"></div>
-              {searchResults.slice(startIndex, startIndex + itemsPerPage).map(product => (
-                <ProductCard key={product.id} product={product} />
-              ))}
+              {searchResults
+                .slice(startIndex, startIndex + itemsPerPage)
+                .map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
             </>
           )}
 
@@ -159,17 +178,20 @@ const Home = () => {
             </div>
           )}
 
-          {renderMode === "featured" && (
-            currentProducts.map(product => (
+          {renderMode === "featured" &&
+            currentProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
-            ))
-          )}
+            ))}
         </div>
       </div>
 
       <div className="pagination">
-        <button onClick={goToFirstPage} disabled={currentPage === 1}>Inicio</button>
-        <button onClick={prevPage} disabled={currentPage === 1}>Anterior</button>
+        <button onClick={goToFirstPage} disabled={currentPage === 1}>
+          Inicio
+        </button>
+        <button onClick={prevPage} disabled={currentPage === 1}>
+          Anterior
+        </button>
 
         {Array.from({ length: totalPages }, (_, i) => (
           <button
@@ -181,7 +203,9 @@ const Home = () => {
           </button>
         ))}
 
-        <button onClick={nextPage} disabled={currentPage === totalPages}>Siguiente</button>
+        <button onClick={nextPage} disabled={currentPage === totalPages}>
+          Siguiente
+        </button>
       </div>
     </div>
   );

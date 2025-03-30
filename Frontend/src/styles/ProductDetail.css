@@ -5,12 +5,12 @@
   text-align: left;
   display: flex;
   flex-direction: column;
-  min-height: 100vh; 
+  min-height: 100vh;
 }
 
 .back-button {
-  position: relative; /* Evitamos que quede detrás del header */
-  float: right; /* Alineamos a la derecha */
+  position: relative;
+  float: right;
   background: none;
   border: none;
   font-size: 18px;
@@ -19,7 +19,7 @@
 }
 
 .product-title {
-  margin-top: 20px; /* Bajamos un poco para que no se solape con el botón */
+  margin-top: 20px;
   font-size: 24px;
 }
 
@@ -27,7 +27,7 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Aseguramos que el contenido quede alineado a la izquierda */
+  align-items: flex-start;
   gap: 15px;
 }
 
@@ -95,7 +95,7 @@ footer {
   background-color: #f8f9fa;
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .availability-toggle button {
@@ -108,8 +108,8 @@ footer {
 }
 
 .rdrDayDisabled {
-  background-color: #ffcccc !important;     
-  opacity: 1 !important;               
+  background-color: #ffcccc !important;
+  opacity: 1 !important;
   pointer-events: none;
 }
 
@@ -130,3 +130,11 @@ footer {
   text-decoration: underline;
 }
 
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}

@@ -1,4 +1,5 @@
 package com.rentadavid.controller;
+
 import java.util.Map;
 import java.util.HashMap;
 import java.util.stream.Collectors;
@@ -22,9 +23,6 @@ import java.util.Optional;
 import java.util.NoSuchElementException;
 import java.util.ArrayList;
 
-
-
-
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
@@ -41,37 +39,34 @@ public class ProductController {
     @GetMapping("/random")
     public List<Map<String, Object>> getRandomProducts() {
         List<Product> products = productService.getRandomProducts();
-        
+
         return products.stream().map(product -> {
             Map<String, Object> productData = new HashMap<>();
             productData.put("id", product.getId());
             productData.put("name", product.getName());
             productData.put("description", product.getDescription());
-    
-            // Si tiene imágenes, usa la primera como imagen principal
+
             List<String> images = product.getImageUrls();
             productData.put("imageUrl", (images != null && !images.isEmpty()) ? images.get(0) : "default.jpg");
-    
+
             return productData;
         }).collect(Collectors.toList());
     }
-    
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         Optional<Product> product = productService.getProductById(id);
-        
+
         if (product.isPresent()) {
             Product prod = product.get();
             if (prod.getCategory() != null) {
-                prod.setCategory(prod.getCategory()); // Asegurar que la categoría esté presente
+                prod.setCategory(prod.getCategory());
             }
             return ResponseEntity.ok(prod);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
-    
 
     @PostMapping
     public ResponseEntity<?> addProduct(@RequestBody Product product) {
@@ -103,7 +98,6 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
-    
 
     @GetMapping
     public List<Product> getAllProducts() {
@@ -135,57 +129,56 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar producto");
         }
     }
-    
-        @GetMapping("/filter")
-        public ResponseEntity<List<Product>> getProductsByCategoryIds(@RequestParam List<Long> categories) {
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<Product>> getProductsByCategoryIds(@RequestParam List<Long> categories) {
         List<Product> products = productService.getProductsByCategoryIds(categories);
         return ResponseEntity.ok(products);
     }
 
-        @Autowired
+    @Autowired
     private BookingService bookingService;
 
     @GetMapping("/available")
     public ResponseEntity<List<Product>> getAvailableProducts(
-        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
-        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end) {
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end) {
 
         List<Booking> overlappingBookings = bookingService.findBookingsBetween(start, end);
         List<Long> reservedProductIds = overlappingBookings.stream()
-            .map(b -> b.getProduct().getId())
-            .distinct()
-            .toList();
+                .map(b -> b.getProduct().getId())
+                .distinct()
+                .toList();
 
         List<Product> availableProducts = productService.getAvailableProductsExcluding(reservedProductIds);
         return ResponseEntity.ok(availableProducts);
-}
-
-        @GetMapping("/search")
-        public ResponseEntity<List<Product>> searchByKeyword(@RequestParam(required = false) String keyword) {
-            if (keyword == null || keyword.trim().isEmpty()) {
-                // Si no hay keyword, devolvemos lista vacía
-                return ResponseEntity.ok(Collections.emptyList());
-            }
-
-            List<Product> results = productService.searchByKeyword(keyword.trim());
-            return ResponseEntity.ok(results);
-        }
-
-        @GetMapping("/unavailable-dates")
-public ResponseEntity<List<LocalDate>> getUnavailableDates(@RequestParam Long productId) {
-    List<Booking> bookings = bookingService.findByProductId(productId);
-    List<LocalDate> unavailableDates = new ArrayList<>();
-
-    for (Booking booking : bookings) {
-        LocalDate current = booking.getStartDate();
-        while (!current.isAfter(booking.getEndDate())) {
-            unavailableDates.add(current);
-            current = current.plusDays(1);
-        }
     }
 
-    return ResponseEntity.ok(unavailableDates);
-}
+    @GetMapping("/search")
+    public ResponseEntity<List<Product>> searchByKeyword(@RequestParam(required = false) String keyword) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            // Si no hay keyword, devolvemos lista vacía
+            return ResponseEntity.ok(Collections.emptyList());
+        }
 
+        List<Product> results = productService.searchByKeyword(keyword.trim());
+        return ResponseEntity.ok(results);
+    }
+
+    @GetMapping("/unavailable-dates")
+    public ResponseEntity<List<LocalDate>> getUnavailableDates(@RequestParam Long productId) {
+        List<Booking> bookings = bookingService.findByProductId(productId);
+        List<LocalDate> unavailableDates = new ArrayList<>();
+
+        for (Booking booking : bookings) {
+            LocalDate current = booking.getStartDate();
+            while (!current.isAfter(booking.getEndDate())) {
+                unavailableDates.add(current);
+                current = current.plusDays(1);
+            }
+        }
+
+        return ResponseEntity.ok(unavailableDates);
+    }
 
 }

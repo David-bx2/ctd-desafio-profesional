@@ -30,7 +30,6 @@ public class CategoryController {
             return ResponseEntity.status(500).body("Error al guardar la categoría: " + e.getMessage());
         }
     }
-    
 
     @GetMapping
     public List<Category> getAllCategories() {
@@ -41,7 +40,6 @@ public class CategoryController {
     public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);
         return ResponseEntity.ok().build();
-}
+    }
 
 }
-

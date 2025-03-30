@@ -4,19 +4,16 @@ import "../styles/main.css";
 const Main = () => {
   return (
     <main className="main-container">
-      {/* Buscador */}
       <section className="section">
         <h2>Buscador</h2>
         <p>Aquí irá el buscador de autos.</p>
       </section>
 
-      {/* Categorías */}
       <section className="section">
         <h2>Categorías</h2>
         <p>Aquí se mostrarán diferentes categorías de autos.</p>
       </section>
 
-      {/* Recomendaciones */}
       <section className="section">
         <h2>Recomendaciones</h2>
         <p>Aquí irán las recomendaciones de autos disponibles.</p>

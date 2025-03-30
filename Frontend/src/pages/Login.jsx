@@ -1,5 +1,3 @@
-// Login.jsx (editado para mostrar mensaje superior si viene de ProductDetail)
-
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -15,10 +13,13 @@ const Login = ({ setUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/api/auth/login", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "http://localhost:8080/api/auth/login",
+        {
+          email,
+          password,
+        }
+      );
       localStorage.setItem("user", JSON.stringify(response.data));
       setUser(response.data);
       navigate("/");
@@ -29,9 +30,7 @@ const Login = ({ setUser }) => {
 
   return (
     <div className="container mt-5">
-      {alertMsg && (
-        <div className="alert alert-warning">{alertMsg}</div>
-      )}
+      {alertMsg && <div className="alert alert-warning">{alertMsg}</div>}
       <h2>Iniciar Sesión</h2>
       {error && <p className="text-danger">{error}</p>}
       <form onSubmit={handleSubmit}>

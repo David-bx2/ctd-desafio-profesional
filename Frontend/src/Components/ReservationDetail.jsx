@@ -23,12 +23,13 @@ const ReservationDetail = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
 
-
   useEffect(() => {
     const fetchProduct = async () => {
       if (!productId) return;
       try {
-        const res = await axios.get(`http://localhost:8080/api/products/${productId}`);
+        const res = await axios.get(
+          `http://localhost:8080/api/products/${productId}`
+        );
         setProduct(res.data);
       } catch (err) {
         setErrorMsg("Error al obtener producto");
@@ -51,14 +52,12 @@ const ReservationDetail = () => {
           phoneNumber: phone,
         },
       });
-  
-      setShowSuccess(true);
 
+      setShowSuccess(true);
     } catch (err) {
       alert(err.response?.data || "Error al confirmar la reserva.");
     }
   };
-  
 
   if (!user) {
     return (
@@ -73,54 +72,59 @@ const ReservationDetail = () => {
   if (!product) return <p>No se encontró el producto solicitado.</p>;
 
   return (
-<div className="reserve-form-container">
-  <div className="reserve-form-inner">
-      <h2 className="text-center">Detalles de la Reserva</h2>
-      <div className="reservation-box">
-        <h4>Producto: {product.name}</h4>
-        <img
-          src={product.imageUrls?.[0] || "/assets/default.jpg"}
-          alt={product.name}
-          style={{ maxWidth: "300px" }}
-        />
-        <p>{product.description}</p>
+    <div className="reserve-form-container">
+      <div className="reserve-form-inner">
+        <h2 className="text-center">Detalles de la Reserva</h2>
+        <div className="reservation-box">
+          <h4>Producto: {product.name}</h4>
+          <img
+            src={product.imageUrls?.[0] || "/assets/default.jpg"}
+            alt={product.name}
+            style={{ maxWidth: "300px" }}
+          />
+          <p>{product.description}</p>
+        </div>
+
+        <div className="reservation-box">
+          <h5>Usuario:</h5>
+          <p>
+            <strong>Nombre:</strong> {user.name}
+          </p>
+          <p>
+            <strong>Email:</strong> {user.email}
+          </p>
+          <p>
+            <strong>Teléfono:</strong> {phone}
+          </p>
+          <p>
+            <strong>Comentarios:</strong>{" "}
+            {comments || "Sin comentarios adicionales"}
+          </p>
+        </div>
+
+        <div className="reservation-box">
+          <h5>Fechas seleccionadas:</h5>
+          <p>
+            <strong>Inicio:</strong> {start}
+          </p>
+          <p>
+            <strong>Fin:</strong> {end}
+          </p>
+        </div>
+
+        <ProductPolicies />
+
+        <div className="button-group">
+          <button className="btn btn-primary" onClick={handleConfirm}>
+            Confirmar Reserva
+          </button>
+          <button className="btn btn-dark" onClick={() => navigate(-1)}>
+            ⬅️ Volver
+          </button>
+        </div>
+        {showSuccess && <SuccessPopup onClose={() => navigate("/")} />}
       </div>
-
-      <div className="reservation-box">
-        <h5>Usuario:</h5>
-        <p><strong>Nombre:</strong> {user.name}</p> 
-        <p><strong>Email:</strong> {user.email}</p>
-        <p><strong>Teléfono:</strong> {phone}</p>
-        <p><strong>Comentarios:</strong> {comments || "Sin comentarios adicionales"}</p>
-      </div>
-
-      <div className="reservation-box">
-        <h5>Fechas seleccionadas:</h5>
-        <p>
-          <strong>Inicio:</strong> {start}
-        </p>
-        <p>
-          <strong>Fin:</strong> {end}
-        </p>
-      </div>
-
-      <ProductPolicies />
-
-
-      <div className="button-group">
-  <button className="btn btn-primary" onClick={handleConfirm}>
-    Confirmar Reserva
-  </button>
-  <button className="btn btn-secondary" onClick={() => navigate(-1)}>
-    Volver
-  </button>
-</div>
-{showSuccess && <SuccessPopup onClose={() => navigate("/")} />}
-
-
     </div>
-  </div>
-    
   );
 };
 

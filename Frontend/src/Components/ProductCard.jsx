@@ -5,9 +5,10 @@ import axios from "axios";
 import "../styles/ProductCard.css";
 
 const ProductCard = ({ product }) => {
-  const mainImage = Array.isArray(product.imageUrls) && product.imageUrls.length > 0
-    ? product.imageUrls[0]
-    : "/assets/default.jpg";
+  const mainImage =
+    Array.isArray(product.imageUrls) && product.imageUrls.length > 0
+      ? product.imageUrls[0]
+      : "/assets/default.jpg";
 
   const userRef = useRef(JSON.parse(localStorage.getItem("user")));
   const user = userRef.current;
@@ -21,9 +22,12 @@ const ProductCard = ({ product }) => {
 
     const checkFavorite = async () => {
       try {
-        const res = await axios.get("http://localhost:8080/api/favorites/check", {
-          params: { userId: user.id, productId: product.id }
-        });
+        const res = await axios.get(
+          "http://localhost:8080/api/favorites/check",
+          {
+            params: { userId: user.id, productId: product.id },
+          }
+        );
         setIsFavorite(res.data);
       } catch (err) {
         console.error("Error al verificar favorito", err);
@@ -32,7 +36,9 @@ const ProductCard = ({ product }) => {
 
     const fetchRating = async () => {
       try {
-        const res = await axios.get(`http://localhost:8080/api/reviews/product/${product.id}/average`);
+        const res = await axios.get(
+          `http://localhost:8080/api/reviews/product/${product.id}/average`
+        );
         setRatingInfo(res.data);
       } catch (err) {
         console.error("Error obteniendo promedio de reviews:", err);
@@ -41,7 +47,7 @@ const ProductCard = ({ product }) => {
 
     checkFavorite();
     fetchRating();
-  }, [product.id]); // ✅ user fuera de dependencias
+  }, [product.id]);
 
   const toggleFavorite = async (e) => {
     e.preventDefault();
@@ -50,12 +56,12 @@ const ProductCard = ({ product }) => {
     try {
       if (isFavorite) {
         await axios.delete("http://localhost:8080/api/favorites", {
-          params: { userId: user.id, productId: product.id }
+          params: { userId: user.id, productId: product.id },
         });
         setIsFavorite(false);
       } else {
         await axios.post("http://localhost:8080/api/favorites", null, {
-          params: { userId: user.id, productId: product.id }
+          params: { userId: user.id, productId: product.id },
         });
         setIsFavorite(true);
       }
@@ -75,7 +81,11 @@ const ProductCard = ({ product }) => {
           onClick={toggleFavorite}
           title={isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"}
         >
-          {isFavorite ? <FaHeart color="red" size={20} /> : <FaRegHeart size={20} />}
+          {isFavorite ? (
+            <FaHeart color="red" size={20} />
+          ) : (
+            <FaRegHeart size={20} />
+          )}
         </div>
       )}
 

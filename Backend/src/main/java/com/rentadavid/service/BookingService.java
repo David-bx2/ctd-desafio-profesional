@@ -11,7 +11,6 @@ import com.rentadavid.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -22,15 +21,15 @@ public class BookingService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
     private final EmailService emailService;
-    
+
     @Autowired
-    public BookingService(BookingRepository bookingRepository, ProductRepository productRepository, UserRepository userRepository, EmailService emailService) {
+    public BookingService(BookingRepository bookingRepository, ProductRepository productRepository,
+            UserRepository userRepository, EmailService emailService) {
         this.bookingRepository = bookingRepository;
         this.productRepository = productRepository;
-        this.userRepository = userRepository; 
+        this.userRepository = userRepository;
         this.emailService = emailService;
     }
-    
 
     public List<Booking> findBookingsBetween(LocalDate start, LocalDate end) {
         return bookingRepository.findByStartDateLessThanEqualAndEndDateGreaterThanEqual(end, start);
@@ -47,34 +46,31 @@ public class BookingService {
     public List<Booking> findByUserOrdered(Long userId) {
         return bookingRepository.findByUserIdOrderByCreatedAtDesc(userId);
     }
-    
-    
 
     public Booking createBooking(Long productId, Long userId, LocalDate start, LocalDate end, String phoneNumber) {
         List<Booking> overlapping = bookingRepository.findBookingsBetweenDatesAndProduct(productId, start, end);
-    
+
         if (!overlapping.isEmpty()) {
             throw new IllegalStateException("Este producto ya está reservado en ese rango de fechas");
         }
-    
+
         Product product = productRepository.findById(productId)
-            .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
-    
+                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
+
         User user = userRepository.findById(userId)
-            .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
-    
+                .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
+
         Booking booking = new Booking(start, end, product, user, phoneNumber);
 
         emailService.enviarConfirmacionReserva(
-            user.getEmail(),
-            user.getFirstName() + " " + user.getLastName(),
-            product.getName(),
-            start.toString(),
-            end.toString(),
-            phoneNumber
-        );
+                user.getEmail(),
+                user.getFirstName() + " " + user.getLastName(),
+                product.getName(),
+                start.toString(),
+                end.toString(),
+                phoneNumber);
 
         return bookingRepository.save(booking);
     }
-    
+
 }

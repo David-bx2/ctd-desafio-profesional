@@ -25,14 +25,20 @@ const ProductGallery = ({ images }) => {
         Ver más
       </button>
 
-      {/* 📌 Modal con botón de cierre y scroll */}
       {showAllImages && (
         <div className="overlay">
           <div className="overlay-content">
-            <button className="close" onClick={() => setShowAllImages(false)}>✖</button>
+            <button className="close" onClick={() => setShowAllImages(false)}>
+              ✖
+            </button>
             <div className="image-scroll-container">
               {images.map((img, index) => (
-                <img key={index} src={img} alt={`Imagen ${index + 1}`} className="full-image" />
+                <img
+                  key={index}
+                  src={img}
+                  alt={`Imagen ${index + 1}`}
+                  className="full-image"
+                />
               ))}
             </div>
           </div>

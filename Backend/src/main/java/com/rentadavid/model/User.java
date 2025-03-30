@@ -5,9 +5,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-
 @Entity
-@Table(name = "users") 
+@Table(name = "users")
 public class User {
 
     @Id
@@ -32,8 +31,8 @@ public class User {
     @Column(nullable = false)
     private boolean admin = false;
 
-
-    public User() {}
+    public User() {
+    }
 
     public User(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
@@ -85,10 +84,9 @@ public class User {
     public boolean isAdmin() {
         return admin;
     }
-    
+
     public void setAdmin(boolean admin) {
         this.admin = admin;
     }
-    
-}
 
+}

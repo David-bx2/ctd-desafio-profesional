@@ -52,7 +52,9 @@ const ReviewForm = ({ productId, userId, onReviewSubmitted }) => {
         onChange={(e) => setComment(e.target.value)}
       ></textarea>
       {error && <div className="text-danger mb-2">{error}</div>}
-      <button type="submit" className="btn btn-primary">Enviar reseña</button>
+      <button type="submit" className="btn btn-primary">
+        Enviar reseña
+      </button>
     </form>
   );
 };

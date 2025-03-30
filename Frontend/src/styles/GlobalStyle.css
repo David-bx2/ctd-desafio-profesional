@@ -1,0 +1,81 @@
+:root {
+  --primary-blue: #008DD5;
+  --light-blue: #4BA3C3;
+  --yellow: #E3B155;
+  --black: #27242a;
+  --white: #FFFFFF;
+  --gray: #A0A0A0;
+}
+
+body {
+  background-color: var(--white);
+  color: var(--black);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--primary-blue);
+}
+
+.btn-primary {
+  background-color: var(--primary-blue);
+  border: none;
+  color: var(--white);
+}
+
+.btn-primary:hover {
+  background-color: var(--light-blue);
+}
+
+.btn-secondary {
+  background-color: var(--gray);
+  border: none;
+  color: var(--black);
+}
+
+.btn-secondary:hover {
+  background-color: var(--primary-blue);
+  color: var(--white);
+}
+
+.card {
+  border: 1px solid var(--gray);
+  background-color: var(--white);
+}
+
+input,
+textarea,
+select {
+  border: 1px solid var(--gray);
+  border-radius: 4px;
+  padding: 8px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 2px rgba(0, 141, 213, 0.2);
+}
+
+a {
+  color: var(--primary-blue);
+}
+
+a:hover {
+  color: var(--light-blue);
+}
+
+footer,
+.navbar {
+  background-color: var(--black);
+  color: var(--white);
+}

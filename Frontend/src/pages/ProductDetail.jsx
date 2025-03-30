@@ -30,7 +30,9 @@ const ProductDetail = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/products/${id}`);
+        const response = await axios.get(
+          `http://localhost:8080/api/products/${id}`
+        );
         setProduct(response.data);
       } catch (error) {
         console.error("Error fetching product details:", error);
@@ -47,7 +49,9 @@ const ProductDetail = () => {
 
   const handleReserveClick = () => {
     if (!user) {
-      navigate("/login", { state: { message: "Debes iniciar sesión para reservar." } });
+      navigate("/login", {
+        state: { message: "Debes iniciar sesión para reservar." },
+      });
     } else {
       navigate(`/reserve/${id}`);
     }
@@ -59,13 +63,20 @@ const ProductDetail = () => {
   return (
     <div className="product-detail-container">
       <div className="back-button">
-        <button className="btn btn-dark" onClick={() => navigate(-1)}>⬅️ Volver</button>
+        <button className="btn btn-dark" onClick={() => navigate(-1)}>
+          ⬅️ Volver
+        </button>
       </div>
       <h1 className="product-title">{product.name}</h1>
-      <p className="product-category">Categoría: {product.category ? product.category.name : "Sin categoría"}</p>
+      <p className="product-category">
+        Categoría: {product.category ? product.category.name : "Sin categoría"}
+      </p>
 
       <div className="d-flex justify-content-end">
-        <button className="btn btn-outline-primary mt-2" onClick={() => setShowShare(true)}>
+        <button
+          className="btn btn-outline-primary mt-2"
+          onClick={() => setShowShare(true)}
+        >
           <Share2 size={18} className="me-2" /> Compartir
         </button>
       </div>
@@ -75,7 +86,7 @@ const ProductDetail = () => {
       <p className="product-description">{product.description}</p>
 
       <div className="mt-4 d-flex justify-content-center">
-        <button className="btn btn-success" onClick={handleReserveClick}>
+        <button className="btn btn-primary" onClick={handleReserveClick}>
           Reservar
         </button>
       </div>
@@ -85,7 +96,11 @@ const ProductDetail = () => {
         <div className="features-grid">
           {product.features?.map((feature) => (
             <div key={feature.id} className="feature-card">
-              <img src={feature.icon} alt={feature.name} className="feature-icon" />
+              <img
+                src={feature.icon}
+                alt={feature.name}
+                className="feature-icon"
+              />
               <div>
                 <strong>{feature.name}</strong>
                 <p>{feature.detail}</p>
@@ -98,8 +113,13 @@ const ProductDetail = () => {
       <div className="product-availability mt-4">
         <h3>Disponibilidad</h3>
         <div className="availability-toggle text-center mt-3">
-          <button className="btn btn-primary" onClick={() => setShowCalendar(!showCalendar)}>
-            {showCalendar ? "Ocultar disponibilidad" : "Consultar disponibilidad"}
+          <button
+            className="btn btn-primary"
+            onClick={() => setShowCalendar(!showCalendar)}
+          >
+            {showCalendar
+              ? "Ocultar disponibilidad"
+              : "Consultar disponibilidad"}
           </button>
         </div>
         {showCalendar && (
@@ -121,10 +141,8 @@ const ProductDetail = () => {
       </div>
 
       <div className="product-detail-container">
-      <ProductPolicies />
-
-    </div>
-
+        <ProductPolicies />
+      </div>
 
       {showShare && (
         <div className="modal fade show d-block" tabIndex="-1" role="dialog">
@@ -132,10 +150,18 @@ const ProductDetail = () => {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Compartir este producto</h5>
-                <button type="button" className="btn-close" onClick={() => setShowShare(false)}></button>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setShowShare(false)}
+                ></button>
               </div>
               <div className="modal-body">
-                <img src={image} alt="preview" className="img-fluid mb-3 rounded" />
+                <img
+                  src={image}
+                  alt="preview"
+                  className="img-fluid mb-3 rounded"
+                />
                 <h5>{product.name}</h5>
                 <p>{product.description}</p>
                 <textarea

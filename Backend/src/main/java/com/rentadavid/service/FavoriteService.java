@@ -22,7 +22,8 @@ public class FavoriteService {
 
     public Favorite addFavorite(User user, Product product) {
         Optional<Favorite> existing = favoriteRepository.findByUserIdAndProductId(user.getId(), product.getId());
-        if (existing.isPresent()) return existing.get();
+        if (existing.isPresent())
+            return existing.get();
         return favoriteRepository.save(new Favorite(user, product));
     }
 

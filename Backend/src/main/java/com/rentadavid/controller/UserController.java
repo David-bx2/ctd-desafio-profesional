@@ -19,7 +19,6 @@ public class UserController {
         this.userService = userService;
     }
 
-
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         try {
@@ -29,7 +28,6 @@ public class UserController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
 
     @PostMapping("/resend-confirmation")
     public ResponseEntity<?> resendConfirmation(@RequestBody Map<String, String> body) {

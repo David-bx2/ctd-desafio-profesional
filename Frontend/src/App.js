@@ -18,12 +18,13 @@ import ReservationDetail from "./Components/ReservationDetail";
 import MyBookings from "./pages/MyBookings";
 import WhatsappChatButton from "./Components/WhatsappChatButton";
 
+
 function App() {
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;
   });
-  
+
   return (
     <Router>
       <Header user={user} setUser={setUser} />
@@ -33,18 +34,18 @@ function App() {
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/reserve/:id" element={<ReserveForm />} />
         <Route path="/reservation-detail" element={<ReservationDetail />} />
-        <Route path="/admin/add-product" element={user?.isAdmin ?<AddProduct />: <Navigate to="/" />} />
+        <Route path="/admin/add-product" element={user?.isAdmin ? <AddProduct /> : <Navigate to="/" />} />
         <Route
-  path="/admin"
-  element={user?.isAdmin ? <AdminPanel /> : <Navigate to="/" />}
-/>
-        <Route path="/admin/products" element={user?.isAdmin ?<ProductList />: <Navigate to="/" />} />
+          path="/admin"
+          element={user?.isAdmin ? <AdminPanel /> : <Navigate to="/" />}
+        />
+        <Route path="/admin/products" element={user?.isAdmin ? <ProductList /> : <Navigate to="/" />} />
         <Route
           path="/admin/features"
           element={user?.isAdmin ? <FeatureList /> : <Navigate to="/" />}
         />
-        <Route path="/admin/edit-product/:id" element={user?.isAdmin ?<EditProduct /> : <Navigate to="/" />} />
-        <Route path="/admin/categorias" element={user?.isAdmin ?<AddCategory />: <Navigate to="/" />} />
+        <Route path="/admin/edit-product/:id" element={user?.isAdmin ? <EditProduct /> : <Navigate to="/" />} />
+        <Route path="/admin/categorias" element={user?.isAdmin ? <AddCategory /> : <Navigate to="/" />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/my-bookings" element={<MyBookings />} />¿
         <Route path="/login" element={<Login setUser={setUser} />} />

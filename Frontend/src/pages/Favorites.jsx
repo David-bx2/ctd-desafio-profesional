@@ -19,7 +19,6 @@ const Favorites = () => {
           params: { userId: user.id },
         });
 
-        // Extraer sólo los productos
         const products = res.data.map((fav) => fav.product);
         setFavorites(products);
       } catch (err) {
@@ -41,7 +40,9 @@ const Favorites = () => {
       {error && <p className="text-danger text-center">{error}</p>}
 
       {!loading && favorites.length === 0 && (
-        <p className="text-center">Aún no has marcado ningún producto como favorito.</p>
+        <p className="text-center">
+          Aún no has marcado ningún producto como favorito.
+        </p>
       )}
 
       <div className="product-grid">
@@ -50,9 +51,10 @@ const Favorites = () => {
         ))}
       </div>
       <div className="d-flex justify-content-center my-3">
-  <button className="btn btn-dark" onClick={() => navigate(-1)}>⬅️ Volver</button>
-</div>
-
+        <button className="btn btn-dark" onClick={() => navigate(-1)}>
+          ⬅️ Volver
+        </button>
+      </div>
     </div>
   );
 };

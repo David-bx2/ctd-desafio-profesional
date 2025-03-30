@@ -56,4 +56,4 @@ public class FavoriteController {
         boolean isFav = favoriteService.isFavorite(userId, productId);
         return ResponseEntity.ok(isFav);
     }
-} 
+}

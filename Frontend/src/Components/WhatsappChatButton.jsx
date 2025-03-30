@@ -6,8 +6,10 @@ import "../styles/WhatsappChatButton.css";
 const WhatsappChatButton = () => {
   const [loading, setLoading] = useState(false);
 
-  const phoneNumber = "524721051481"; 
-  const message = encodeURIComponent("Hola, tengo una consulta sobre uno de los vehículos en la plataforma.");
+  const phoneNumber = "52123456789";
+  const message = encodeURIComponent(
+    "Hola, tengo una consulta sobre uno de los vehículos en la plataforma."
+  );
 
   const handleClick = () => {
     setLoading(true);

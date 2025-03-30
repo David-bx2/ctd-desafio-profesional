@@ -37,7 +37,7 @@ INSERT INTO product_imageurls (product_id, image_url) VALUES
 
 
 INSERT INTO users (id, admin, email, first_name, last_name, password)
-VALUES (1, TRUE, 'josedavid-12@hotmail.com', 'Jose', 'Fernandez', '$2a$10$SGah9jcYTNSsJd5hI315hegkfHl6zPNfYQdgaOb6K6F8vXKx1H0aC'),
+VALUES (1, TRUE, 'jose@mail.com', 'Jose', 'Fernandez', '$2a$10$SGah9jcYTNSsJd5hI315hegkfHl6zPNfYQdgaOb6K6F8vXKx1H0aC'),
 (2, false, 'juan@mail.com', 'Juan', 'Pérez', '$2a$10$abcdefghijABCDEFGHIJabcdefghijABCDEFGHIJabcdefghijABCD'), -- contraseña encriptada
 (3, true, 'ana@mail.com', 'Ana', 'López', '$2a$10$abcdefghijABCDEFGHIJabcdefghijABCDEFGHIJabcdefghijABCD'),
 (4, false, 'mario@mail.com', 'Mario', 'Gómez', '$2a$10$abcdefghijABCDEFGHIJabcdefghijABCDEFGHIJabcdefghijABCD');

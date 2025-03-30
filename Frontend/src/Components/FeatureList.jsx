@@ -4,7 +4,11 @@ import { Link } from "react-router-dom";
 
 const FeatureList = () => {
   const [features, setFeatures] = useState([]);
-  const [newFeature, setNewFeature] = useState({ name: "", icon: "", detalle: "" });
+  const [newFeature, setNewFeature] = useState({
+    name: "",
+    icon: "",
+    detalle: "",
+  });
 
   useEffect(() => {
     fetchFeatures();
@@ -35,7 +39,12 @@ const FeatureList = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("¿Estás seguro de que deseas eliminar esta característica?")) return;
+    if (
+      !window.confirm(
+        "¿Estás seguro de que deseas eliminar esta característica?"
+      )
+    )
+      return;
     try {
       await axios.delete(`http://localhost:8080/api/features/${id}`);
       fetchFeatures();
@@ -82,7 +91,9 @@ const FeatureList = () => {
             />
           </div>
           <div className="col-md-2">
-            <button type="submit" className="btn btn-success w-100">Añadir</button>
+            <button type="submit" className="btn btn-primary">
+              💾 Guardar Caracteristica
+            </button>
           </div>
         </div>
       </form>
@@ -108,7 +119,7 @@ const FeatureList = () => {
                   className="btn btn-danger btn-sm"
                   onClick={() => handleDelete(feature.id)}
                 >
-                  Eliminar
+                  🗑️ Eliminar
                 </button>
               </td>
             </tr>
@@ -116,7 +127,9 @@ const FeatureList = () => {
         </tbody>
       </table>
       <div className="d-flex justify-content-center gap-3 mt-4">
-      <Link to="/admin" className="btn btn-dark">⬅️ Volver al Panel</Link>
+        <Link to="/admin" className="btn btn-dark">
+          ⬅️ Volver al Panel
+        </Link>
       </div>
     </div>
   );

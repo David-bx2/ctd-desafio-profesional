@@ -1,63 +1,73 @@
 .product-card {
-    width: 320px;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    background-color: #fff;
-    transition: transform 0.2s ease-in-out;
-    position: relative;
+  width: 320px;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  background-color: #fff;
+  transition: transform 0.2s ease-in-out;
+  position: relative;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
+}
+
+.product-image {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.product-card h3 {
+  margin-top: 10px;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.product-card a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.favorite-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.favorite-icon.animate {
+  animation: bounce 0.4s ease;
+}
+
+@keyframes bounce {
+  0% {
+    transform: scale(1);
   }
-  
-  .product-card:hover {
-    transform: scale(1.05);
+
+  30% {
+    transform: scale(1.4);
   }
-  
-  .product-image {
-    width: 300px;
-    height: 300px;
-    object-fit: cover; 
-    border-radius: 8px;
+
+  60% {
+    transform: scale(0.9);
   }
-  
-  .product-card h3 {
-    margin-top: 10px;
-    font-size: 1.2rem;
-    color: #333;
+
+  100% {
+    transform: scale(1);
   }
-  
-  .product-card a {
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  .favorite-icon {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-    z-index: 2;
-  }
-  
-  .favorite-icon.animate {
-    animation: bounce 0.4s ease;
-  }
-  
-  @keyframes bounce {
-    0%   { transform: scale(1); }
-    30%  { transform: scale(1.4); }
-    60%  { transform: scale(0.9); }
-    100% { transform: scale(1); }
-  }
-  
-  .rating-summary {
-    font-size: 14px;
-    font-weight: bold;
-    color: #333;
-    margin-top: 8px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    justify-content: center;
-  }
-  
+}
+
+.rating-summary {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  justify-content: center;
+}

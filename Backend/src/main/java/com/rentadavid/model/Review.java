@@ -10,7 +10,7 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int rating; 
+    private int rating;
 
     @Column(length = 1000)
     private String comment;
@@ -25,7 +25,8 @@ public class Review {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Review() {}
+    public Review() {
+    }
 
     public Long getId() {
         return id;

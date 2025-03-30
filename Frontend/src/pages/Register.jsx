@@ -114,7 +114,7 @@ const Register = () => {
           value={resendEmail}
           onChange={(e) => setResendEmail(e.target.value)}
         />
-        <button className="btn btn-secondary" onClick={handleResend}>
+        <button className="btn btn-primary" onClick={handleResend}>
           Reenviar Confirmación
         </button>
         {resendMessage && <p className="mt-2">{resendMessage}</p>}

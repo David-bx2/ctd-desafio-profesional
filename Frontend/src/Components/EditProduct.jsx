@@ -33,7 +33,7 @@ const EditProduct = () => {
           name: prod.name,
           description: prod.description,
           categoryId: prod.category?.id || "",
-          featureIds: prod.features?.map(f => f.id) || [],
+          featureIds: prod.features?.map((f) => f.id) || [],
           imageUrls: prod.imageUrls || [],
         });
         setCategories(categoriesRes.data);
@@ -52,7 +52,7 @@ const EditProduct = () => {
 
   const handleFeatureToggle = (featureId) => {
     const updatedFeatures = product.featureIds.includes(featureId)
-      ? product.featureIds.filter(id => id !== featureId)
+      ? product.featureIds.filter((id) => id !== featureId)
       : [...product.featureIds, featureId];
 
     setProduct({ ...product, featureIds: updatedFeatures });
@@ -73,9 +73,13 @@ const EditProduct = () => {
         formData.append("file", file);
         formData.append("productName", product.name);
 
-        const uploadRes = await axios.post("http://localhost:8080/api/uploads/image", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
+        const uploadRes = await axios.post(
+          "http://localhost:8080/api/uploads/image",
+          formData,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          }
+        );
 
         uploadedImageUrls.push(uploadRes.data);
       }
@@ -85,10 +89,13 @@ const EditProduct = () => {
         description: product.description,
         imageUrls: uploadedImageUrls,
         category: { id: parseInt(product.categoryId) },
-        features: product.featureIds.map(id => ({ id })),
+        features: product.featureIds.map((id) => ({ id })),
       };
 
-      await axios.put(`http://localhost:8080/api/products/${id}`, updatedProduct);
+      await axios.put(
+        `http://localhost:8080/api/products/${id}`,
+        updatedProduct
+      );
       alert("Producto actualizado correctamente");
       navigate("/admin/products");
     } catch (error) {
@@ -99,25 +106,52 @@ const EditProduct = () => {
   return (
     <div className="container mt-5">
       <h2>Editar Producto</h2>
-      {error && <p className="text-danger">{typeof error === 'string' ? error : error.error || "Error inesperado"}</p>}
+      {error && (
+        <p className="text-danger">
+          {typeof error === "string"
+            ? error
+            : error.error || "Error inesperado"}
+        </p>
+      )}
 
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label className="form-label">Nombre:</label>
-          <input type="text" name="name" className="form-control" value={product.name} onChange={handleChange} required />
+          <input
+            type="text"
+            name="name"
+            className="form-control"
+            value={product.name}
+            onChange={handleChange}
+            required
+          />
         </div>
 
         <div className="mb-3">
           <label className="form-label">Descripción:</label>
-          <textarea name="description" className="form-control" value={product.description} onChange={handleChange} required />
+          <textarea
+            name="description"
+            className="form-control"
+            value={product.description}
+            onChange={handleChange}
+            required
+          />
         </div>
 
         <div className="mb-3">
           <label className="form-label">Categoría:</label>
-          <select name="categoryId" className="form-control" value={product.categoryId} onChange={handleChange} required>
+          <select
+            name="categoryId"
+            className="form-control"
+            value={product.categoryId}
+            onChange={handleChange}
+            required
+          >
             <option value="">Selecciona una categoría</option>
             {categories.map((cat) => (
-              <option key={cat.id} value={cat.id}>{cat.name}</option>
+              <option key={cat.id} value={cat.id}>
+                {cat.name}
+              </option>
             ))}
           </select>
         </div>
@@ -133,7 +167,10 @@ const EditProduct = () => {
                 onChange={() => handleFeatureToggle(feature.id)}
                 id={`feature-${feature.id}`}
               />
-              <label className="form-check-label" htmlFor={`feature-${feature.id}`}>
+              <label
+                className="form-check-label"
+                htmlFor={`feature-${feature.id}`}
+              >
                 {feature.name} ({feature.detail})
               </label>
             </div>
@@ -144,18 +181,33 @@ const EditProduct = () => {
           <label className="form-label">Imágenes existentes:</label>
           <div className="d-flex flex-wrap">
             {product.imageUrls.map((url, index) => (
-              <img key={index} src={url} alt="img" style={{ width: "100px", margin: "5px" }} />
+              <img
+                key={index}
+                src={url}
+                alt="img"
+                style={{ width: "100px", margin: "5px" }}
+              />
             ))}
           </div>
         </div>
 
         <div className="mb-3">
           <label className="form-label">Añadir nuevas imágenes:</label>
-          <input type="file" className="form-control" multiple onChange={handleImageUpload} />
+          <input
+            type="file"
+            className="form-control"
+            multiple
+            onChange={handleImageUpload}
+          />
         </div>
-
-        <button type="submit" className="btn btn-success">Actualizar Producto</button>
-        <Link to="/admin/products" className="btn btn-secondary ms-2">Cancelar</Link>
+        <div className="button-group">
+          <button type="submit" className="btn btn-primary">
+            💾 Actualizar Producto
+          </button>
+          <Link to="/admin/products" className="btn btn-dark">
+            ❌ Cancelar
+          </Link>
+        </div>
       </form>
     </div>
   );

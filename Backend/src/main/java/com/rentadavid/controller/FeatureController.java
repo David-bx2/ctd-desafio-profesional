@@ -29,7 +29,8 @@ public class FeatureController {
     @PutMapping("/{id}")
     public ResponseEntity<Feature> updateFeature(@PathVariable Long id, @RequestBody Feature updatedFeature) {
         Optional<Feature> optionalFeature = featureRepository.findById(id);
-        if (optionalFeature.isEmpty()) return ResponseEntity.notFound().build();
+        if (optionalFeature.isEmpty())
+            return ResponseEntity.notFound().build();
 
         Feature feature = optionalFeature.get();
         feature.setName(updatedFeature.getName());
@@ -40,9 +41,9 @@ public class FeatureController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteFeature(@PathVariable Long id) {
-        if (!featureRepository.existsById(id)) return ResponseEntity.notFound().build();
+        if (!featureRepository.existsById(id))
+            return ResponseEntity.notFound().build();
         featureRepository.deleteById(id);
         return ResponseEntity.ok("Eliminado correctamente");
     }
 }
-
