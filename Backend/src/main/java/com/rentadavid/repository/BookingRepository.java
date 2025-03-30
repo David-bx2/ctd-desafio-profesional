@@ -16,6 +16,10 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     List<Booking> findByProductId(Long productId);
 
+    List<Booking> findByUserId(Long userId);
+
+    List<Booking> findByUserIdOrderByCreatedAtDesc(Long userId);
+
     @Query("SELECT b FROM Booking b " +
        "WHERE b.product.id = :productId " +
        "AND b.startDate <= :end AND b.endDate >= :start")

@@ -36,6 +36,16 @@ public class BookingService {
         return bookingRepository.findByProductId(productId);
     }
 
+    public List<Booking> findByUserId(Long userId) {
+        return bookingRepository.findByUserId(userId);
+    }
+
+    public List<Booking> findByUserOrdered(Long userId) {
+        return bookingRepository.findByUserIdOrderByCreatedAtDesc(userId);
+    }
+    
+    
+
     public Booking createBooking(Long productId, Long userId, LocalDate start, LocalDate end, String phoneNumber) {
         List<Booking> overlapping = bookingRepository.findBookingsBetweenDatesAndProduct(productId, start, end);
     

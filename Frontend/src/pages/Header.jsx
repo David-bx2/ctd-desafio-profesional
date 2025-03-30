@@ -98,6 +98,9 @@ const Header = ({ user, setUser }) => {
                   <button className="dropdown-item" onClick={() => handleNavigate("/favorites")}>
                     Mis Favoritos
                   </button>
+                  <button className="dropdown-item" onClick={() => handleNavigate("/my-bookings")}>
+                    Mis Reservas
+                  </button>
               <button className="dropdown-item" onClick={handleLogout}>
                 Cerrar Sesión
               </button>

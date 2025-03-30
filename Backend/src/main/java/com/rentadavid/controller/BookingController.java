@@ -7,7 +7,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/bookings")
@@ -33,6 +35,13 @@ public class BookingController {
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error interno del servidor");
         }
-    }    
+    }  
+    
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Booking>> getBookingsByUser(@PathVariable Long userId) {
+        List<Booking> bookings = bookingService.findByUserOrdered(userId);
+        return ResponseEntity.ok(bookings);
+    }
+    
 }
 

@@ -23,6 +23,10 @@ public class Booking {
 
     private String phoneNumber;
 
+    @Column(name = "created_at", updatable = false)
+private LocalDate createdAt;
+
+
     public Booking() {}
 
     public Booking(LocalDate startDate, LocalDate endDate, Product product, User user, String phoneNumber) {
@@ -31,6 +35,7 @@ public class Booking {
         this.product = product;
         this.user = user;
         this.phoneNumber = phoneNumber;
+        this.createdAt = LocalDate.now();
     }
     
 
@@ -40,6 +45,7 @@ public class Booking {
     public Product getProduct() { return product; }
     public User getUser() { return user; }
     public String getPhoneNumber() { return phoneNumber; }
+    public LocalDate getCreatedAt() { return createdAt; }
 
     public void setId(Long id) { this.id = id; }
     public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
@@ -47,4 +53,5 @@ public class Booking {
     public void setProduct(Product product) { this.product = product; }
     public void setUser(User user) { this.user = user; }
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+    public void setCreatedAt(LocalDate createdAt) { this.createdAt = createdAt;}
 }

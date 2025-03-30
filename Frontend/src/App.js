@@ -15,6 +15,7 @@ import AddCategory from "./Components/AddCategory";
 import Favorites from "./pages/Favorites";
 import ReserveForm from "./Components/ReserveForm";
 import ReservationDetail from "./Components/ReservationDetail";
+import MyBookings from "./pages/MyBookings";
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -43,7 +44,8 @@ function App() {
         />
         <Route path="/admin/edit-product/:id" element={user?.isAdmin ?<EditProduct /> : <Navigate to="/" />} />
         <Route path="/admin/categorias" element={user?.isAdmin ?<AddCategory />: <Navigate to="/" />} />
-        <Route path="/favorites" element={user?.isAdmin ?<Favorites />: <Navigate to="/" />} />
+        <Route path="/favorites" element={<Favorites />} />
+        <Route path="/my-bookings" element={<MyBookings />} />¿
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/register" element={<Register />} />
       </Routes>
