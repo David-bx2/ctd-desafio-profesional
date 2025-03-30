@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import ProductGallery from "../Components/ProductGallery"; 
+import ProductGallery from "../Components/ProductGallery";
 import AvailabilityCalendar from "../Components/AvailabilityCalendar";
 import ReviewList from "../Components/ReviewList";
 import ReviewForm from "../Components/ReviewForm";
@@ -16,7 +16,8 @@ import {
 import { Share2 } from "react-feather";
 import "../styles/ProductDetail.css";
 
-const ProductDetail = ({ user }) => {
+const ProductDetail = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
@@ -43,6 +44,14 @@ const ProductDetail = ({ user }) => {
 
   if (!product) return <p>Cargando...</p>;
 
+  const handleReserveClick = () => {
+    if (!user) {
+      navigate("/login", { state: { message: "Debes iniciar sesión para reservar." } });
+    } else {
+      navigate(`/reserve/${id}`);
+    }
+  };
+
   const productUrl = `${window.location.origin}/product/${product.id}`;
   const image = product.imageUrls?.[0] || "/assets/default.jpg";
 
@@ -63,6 +72,12 @@ const ProductDetail = ({ user }) => {
       <ProductGallery images={product.imageUrls} />
 
       <p className="product-description">{product.description}</p>
+
+      <div className="mt-4 d-flex justify-content-center">
+        <button className="btn btn-success" onClick={handleReserveClick}>
+          Reservar
+        </button>
+      </div>
 
       <div className="product-features mt-4">
         <h3>Características</h3>
@@ -93,11 +108,15 @@ const ProductDetail = ({ user }) => {
         )}
       </div>
 
-      {/* Sección de valoraciones */}
       <div className="product-reviews mt-5">
-        <h3 className="section-title">Valoraciones</h3>
         <ReviewList productId={product.id} key={reloadReviews} />
-        {user && <ReviewForm productId={product.id} userId={user.id} onReviewSubmitted={handleReviewSubmitted} />}
+        {user && (
+          <ReviewForm
+            productId={product.id}
+            userId={user.id}
+            onReviewSubmitted={handleReviewSubmitted}
+          />
+        )}
       </div>
 
       <div className="product-policies mt-5">
@@ -117,6 +136,7 @@ const ProductDetail = ({ user }) => {
           </div>
         </div>
       </div>
+
 
       {showShare && (
         <div className="modal fade show d-block" tabIndex="-1" role="dialog">
@@ -150,7 +170,11 @@ const ProductDetail = ({ user }) => {
                 </div>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={() => setShowShare(false)}>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setShowShare(false)}
+                >
                   Cerrar
                 </button>
               </div>

@@ -13,6 +13,7 @@ import FeatureList from "./Components/FeatureList";
 import EditProduct from "./Components/EditProduct";
 import AddCategory from "./Components/AddCategory";
 import Favorites from "./pages/Favorites";
+import ReserveForm from "./Components/ReserveForm";
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -27,6 +28,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<ProductDetail />} />
+        <Route path="/reserve/:id" element={<ReserveForm />} />
         <Route path="/admin/add-product" element={user?.isAdmin ?<AddProduct />: <Navigate to="/" />} />
         <Route
   path="/admin"

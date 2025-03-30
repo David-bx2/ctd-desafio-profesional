@@ -1,0 +1,41 @@
+.reserve-form-container {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+  
+  .reserve-form-inner {
+    max-width: 600px;
+    width: 100%;
+  }
+  
+  .calendar-wrapper {
+    margin: 1rem 0;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .product-info {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .product-info img {
+    max-width: 300px;
+    border-radius: 6px;
+  }
+  
+  .button-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+  
+  .rdrDayDisabled {
+    background-color: #ffcccc !important;
+    color: #a10000 !important;
+    opacity: 1 !important;
+    cursor: not-allowed;
+  }
