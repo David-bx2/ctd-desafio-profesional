@@ -8,21 +8,19 @@ const ReservationDetail = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  // Tomamos productId, start y end de la URL
   const productId = searchParams.get("productId");
   const start = searchParams.get("start");
   const end = searchParams.get("end");
+  const phone = searchParams.get("phone") || "";
+  const comments = searchParams.get("comments") || "";
 
-  // Obtenemos el user del localStorage
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? JSON.parse(storedUser) : null;
 
-  // Estado para guardar el producto que mostraremos
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
 
-  // Cargar los detalles del producto
   useEffect(() => {
     const fetchProduct = async () => {
       if (!productId) return;
@@ -44,10 +42,13 @@ const ReservationDetail = () => {
       await axios.post("http://localhost:8080/api/bookings", null, {
         params: {
           productId,
+          userId: user.id,
           start,
           end,
+          phoneNumber: phone,
         },
       });
+      
       alert("Reserva confirmada con éxito.");
       navigate("/");
     } catch (err) {
@@ -55,7 +56,6 @@ const ReservationDetail = () => {
     }
   };
 
-  // Chequear si no hay user o si no hay productId
   if (!user) {
     return (
       <div className="container mt-5">
@@ -83,8 +83,10 @@ const ReservationDetail = () => {
 
       <div className="mt-3 p-3 border rounded">
         <h5>Usuario:</h5>
-        <p>Nombre: {user.name}</p> 
-        <p>Email: {user.email}</p>
+        <p><strong>Nombre:</strong> {user.name}</p> 
+        <p><strong>Email:</strong> {user.email}</p>
+        <p><strong>Teléfono:</strong> {phone}</p>
+        <p><strong>Comentarios:</strong> {comments || "Sin comentarios adicionales"}</p>
       </div>
 
       <div className="mt-3 p-3 border rounded">

@@ -17,21 +17,34 @@ public class Booking {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    private String phoneNumber;
+
     public Booking() {}
 
-    public Booking(LocalDate startDate, LocalDate endDate, Product product) {
+    public Booking(LocalDate startDate, LocalDate endDate, Product product, User user, String phoneNumber) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.product = product;
+        this.user = user;
+        this.phoneNumber = phoneNumber;
     }
+    
 
     public Long getId() { return id; }
     public LocalDate getStartDate() { return startDate; }
     public LocalDate getEndDate() { return endDate; }
     public Product getProduct() { return product; }
+    public User getUser() { return user; }
+    public String getPhoneNumber() { return phoneNumber; }
 
     public void setId(Long id) { this.id = id; }
     public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
     public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
     public void setProduct(Product product) { this.product = product; }
+    public void setUser(User user) { this.user = user; }
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 }

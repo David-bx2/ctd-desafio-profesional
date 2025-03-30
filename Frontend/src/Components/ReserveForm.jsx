@@ -1,4 +1,3 @@
-// ReserveForm.jsx (actualizado para redirigir a una pantalla de detalles en lugar de crear reserva de una vez)
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -7,8 +6,6 @@ import { enUS } from "date-fns/locale";
 import { addDays } from "date-fns";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-
-// Importamos nuestro CSS personalizado
 import "../styles/ReserveForm.css";
 
 const ReserveForm = () => {
@@ -17,6 +14,9 @@ const ReserveForm = () => {
 
   const [product, setProduct] = useState(null);
   const [unavailableDates, setUnavailableDates] = useState([]);
+  const [phone, setPhone] = useState("");
+  const [comments, setComments] = useState("");
+  
   const [range, setRange] = useState([
     {
       startDate: new Date(),
@@ -51,15 +51,15 @@ const ReserveForm = () => {
     fetchUnavailableDates();
   }, [id]);
 
-  // Cambiamos la lógica para redirigir al detalle de reserva
   const handleNext = () => {
-    // Tomamos las fechas elegidas
     const start = range[0].startDate.toISOString().split("T")[0];
     const end = range[0].endDate.toISOString().split("T")[0];
-
-    // Redirigimos a /reservation-detail con query params
-    navigate(`/reservation-detail?productId=${id}&start=${start}&end=${end}`);
+  
+    navigate(
+      `/reservation-detail?productId=${id}&start=${start}&end=${end}&phone=${encodeURIComponent(phone)}&comments=${encodeURIComponent(comments)}`
+    );
   };
+  
 
   if (!product) return <p>Cargando datos del producto...</p>;
 
@@ -80,13 +80,30 @@ const ReserveForm = () => {
           />
         </div>
 
-        <div className="product-info">
-          <img
-            src={product.imageUrls?.[0] || "/assets/default.jpg"}
-            alt={product.name}
-          />
-          <p>{product.description}</p>
-        </div>
+        <div className="mt-3">
+  <label htmlFor="phone"><strong>Teléfono de contacto:</strong></label>
+  <input
+    type="tel"
+    id="phone"
+    className="form-control"
+    placeholder="Ej: +506 8888-8888"
+    value={phone}
+    onChange={(e) => setPhone(e.target.value)}
+  />
+</div>
+
+<div className="mt-3">
+  <label htmlFor="comments"><strong>Comentarios adicionales:</strong></label>
+  <textarea
+    id="comments"
+    className="form-control"
+    rows="3"
+    placeholder="Opcional"
+    value={comments}
+    onChange={(e) => setComments(e.target.value)}
+  />
+</div>
+
 
         <div className="button-group">
           <button className="btn btn-primary" onClick={handleNext}>
