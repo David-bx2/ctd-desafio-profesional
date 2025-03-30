@@ -1,8 +1,9 @@
-// ReservationDetail.jsx
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ProductPolicies from "./ProductPolicies";
+import SuccessPopup from "./SuccessPopup";
+import "../styles/ReservationDetail.css";
 
 const ReservationDetail = () => {
   const [searchParams] = useSearchParams();
@@ -20,6 +21,8 @@ const ReservationDetail = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
+  const [showSuccess, setShowSuccess] = useState(false);
+
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -48,13 +51,14 @@ const ReservationDetail = () => {
           phoneNumber: phone,
         },
       });
-      
-      alert("Reserva confirmada con éxito.");
-      navigate("/");
+  
+      setShowSuccess(true);
+
     } catch (err) {
       alert(err.response?.data || "Error al confirmar la reserva.");
     }
   };
+  
 
   if (!user) {
     return (
@@ -69,9 +73,10 @@ const ReservationDetail = () => {
   if (!product) return <p>No se encontró el producto solicitado.</p>;
 
   return (
-    <div className="container mt-5">
-      <h2>Detalles de la Reserva</h2>
-      <div className="mt-3 p-3 border rounded">
+<div className="reserve-form-container">
+  <div className="reserve-form-inner">
+      <h2 className="text-center">Detalles de la Reserva</h2>
+      <div className="reservation-box">
         <h4>Producto: {product.name}</h4>
         <img
           src={product.imageUrls?.[0] || "/assets/default.jpg"}
@@ -81,7 +86,7 @@ const ReservationDetail = () => {
         <p>{product.description}</p>
       </div>
 
-      <div className="mt-3 p-3 border rounded">
+      <div className="reservation-box">
         <h5>Usuario:</h5>
         <p><strong>Nombre:</strong> {user.name}</p> 
         <p><strong>Email:</strong> {user.email}</p>
@@ -89,7 +94,7 @@ const ReservationDetail = () => {
         <p><strong>Comentarios:</strong> {comments || "Sin comentarios adicionales"}</p>
       </div>
 
-      <div className="mt-3 p-3 border rounded">
+      <div className="reservation-box">
         <h5>Fechas seleccionadas:</h5>
         <p>
           <strong>Inicio:</strong> {start}
@@ -102,7 +107,7 @@ const ReservationDetail = () => {
       <ProductPolicies />
 
 
-      <div className="mt-4 d-flex justify-content-center gap-3">
+      <div className="button-group">
   <button className="btn btn-primary" onClick={handleConfirm}>
     Confirmar Reserva
   </button>
@@ -110,8 +115,12 @@ const ReservationDetail = () => {
     Volver
   </button>
 </div>
+{showSuccess && <SuccessPopup onClose={() => navigate("/")} />}
+
 
     </div>
+  </div>
+    
   );
 };
 

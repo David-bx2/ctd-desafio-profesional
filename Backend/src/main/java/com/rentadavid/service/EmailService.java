@@ -24,4 +24,24 @@ public class EmailService {
 
         mailSender.send(mensaje);
     }
+
+    public void enviarConfirmacionReserva(String toEmail, String nombreCompleto, String producto, String fechaInicio, String fechaFin, String telefono) {
+        SimpleMailMessage mensaje = new SimpleMailMessage();
+        mensaje.setTo(toEmail);
+        mensaje.setSubject("Confirmación de Reserva - Los Mejores Autos");
+    
+        String cuerpo = "Hola " + nombreCompleto + ",\n\n" +
+            "Tu reserva ha sido confirmada con éxito.\n\n" +
+            "📌 Detalles de la reserva:\n" +
+            "Producto: " + producto + "\n" +
+            "Desde: " + fechaInicio + "\n" +
+            "Hasta: " + fechaFin + "\n" +
+            "Teléfono de contacto: " + telefono + "\n\n" +
+            "Gracias por confiar en Los Mejores Autos.\n\n" +
+            "🚗 ¡Te esperamos!";
+    
+        mensaje.setText(cuerpo);
+        mailSender.send(mensaje);
+    }
+    
 }

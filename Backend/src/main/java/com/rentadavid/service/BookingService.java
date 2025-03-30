@@ -7,8 +7,10 @@ import com.rentadavid.model.Product;
 import com.rentadavid.repository.ProductRepository;
 import com.rentadavid.repository.UserRepository;
 import com.rentadavid.model.User;
+import com.rentadavid.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,12 +21,14 @@ public class BookingService {
     private final BookingRepository bookingRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final EmailService emailService;
     
     @Autowired
-    public BookingService(BookingRepository bookingRepository, ProductRepository productRepository, UserRepository userRepository) {
+    public BookingService(BookingRepository bookingRepository, ProductRepository productRepository, UserRepository userRepository, EmailService emailService) {
         this.bookingRepository = bookingRepository;
         this.productRepository = productRepository;
         this.userRepository = userRepository; 
+        this.emailService = emailService;
     }
     
 
@@ -60,6 +64,16 @@ public class BookingService {
             .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
     
         Booking booking = new Booking(start, end, product, user, phoneNumber);
+
+        emailService.enviarConfirmacionReserva(
+            user.getEmail(),
+            user.getFirstName() + " " + user.getLastName(),
+            product.getName(),
+            start.toString(),
+            end.toString(),
+            phoneNumber
+        );
+
         return bookingRepository.save(booking);
     }
     

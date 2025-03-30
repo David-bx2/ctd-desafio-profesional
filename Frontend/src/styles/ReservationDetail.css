@@ -1,0 +1,58 @@
+.reserve-form-container {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+  }
+  
+  .reserve-form-inner {
+    max-width: 600px;
+    width: 100%;
+  }
+  
+  .reservation-box {
+    background-color: #f9f9f9;
+    padding: 1rem 1.2rem;
+    margin-top: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  
+
+.container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  @media (max-width: 576px) {
+    .container {
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+    }
+  
+    .border {
+      padding: 1rem !important;
+    }
+    
+    .mt-3 {
+      margin-top: 1rem !important;
+    }
+  
+    .mt-4 {
+      margin-top: 1.5rem !important;
+    }
+  
+    .p-3 {
+      padding: 1rem !important;
+    }
+  }
+  
