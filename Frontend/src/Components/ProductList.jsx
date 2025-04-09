@@ -29,7 +29,16 @@ const ProductList = () => {
       await axios.delete(`http://localhost:8080/api/products/${id}`);
       setProducts(products.filter((product) => product.id !== id));
     } catch (error) {
-      console.error("Error al eliminar el producto:", error);
+      if (error.response) {
+        console.error("Error al eliminar el producto:", error.response.data);
+        alert("No se pudo eliminar el producto: " + error.response.data);
+      } else if (error.request) {
+        console.error("No hubo respuesta del servidor:", error.request);
+        alert("El servidor no respondió. Revisa tu conexión.");
+      } else {
+        console.error("Error desconocido:", error.message);
+        alert("Ocurrió un error inesperado: " + error.message);
+      }
     }
   };
 

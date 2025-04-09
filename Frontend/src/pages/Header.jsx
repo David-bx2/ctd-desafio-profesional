@@ -31,6 +31,7 @@ const Header = ({ user, setUser }) => {
     setUser(null);
     setShowMenu(false);
     navigate("/");
+    window.location.reload();
   };
 
   const handleNavigate = (path) => {

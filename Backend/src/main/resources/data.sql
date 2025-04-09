@@ -36,11 +36,11 @@ INSERT INTO product_imageurls (product_id, image_url) VALUES
 (10, 'img/clasico1.jpg'), (10, 'img/clasico2.jpg'), (10, 'img/clasico3.jpg');
 
 
-INSERT INTO users (id, admin, email, first_name, last_name, password)
-VALUES (1, TRUE, 'jose@mail.com', 'Jose', 'Fernandez', '$2a$10$SGah9jcYTNSsJd5hI315hegkfHl6zPNfYQdgaOb6K6F8vXKx1H0aC'),
-(2, false, 'juan@mail.com', 'Juan', 'Pérez', '$2a$10$abcdefghijABCDEFGHIJabcdefghijABCDEFGHIJabcdefghijABCD'), -- contraseña encriptada
-(3, true, 'ana@mail.com', 'Ana', 'López', '$2a$10$abcdefghijABCDEFGHIJabcdefghijABCDEFGHIJabcdefghijABCD'),
-(4, false, 'mario@mail.com', 'Mario', 'Gómez', '$2a$10$abcdefghijABCDEFGHIJabcdefghijABCDEFGHIJabcdefghijABCD');
+INSERT INTO users (admin, email, first_name, last_name, password)
+VALUES ( TRUE, 'jose@mail.com', 'Jose', 'Fernandez', '$2a$10$SGah9jcYTNSsJd5hI315hegkfHl6zPNfYQdgaOb6K6F8vXKx1H0aC'),
+( false, 'juan@mail.com', 'Juan', 'Pérez', '$2a$10$abcdefghijABCDEFGHIJabcdefghijABCDEFGHIJabcdefghijABCD'), -- contraseña encriptada
+( true, 'ana@mail.com', 'Ana', 'López', '$2a$10$abcdefghijABCDEFGHIJabcdefghijABCDEFGHIJabcdefghijABCD'),
+( false, 'mario@mail.com', 'Mario', 'Gómez', '$2a$10$abcdefghijABCDEFGHIJabcdefghijABCDEFGHIJabcdefghijABCD');
 
 INSERT INTO feature ( name, icon, detalle) VALUES
 ( 'GPS', 'img/icon1.jpg', 'Ubicación en tiempo real'),

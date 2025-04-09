@@ -3,6 +3,7 @@ package com.rentadavid.model;
 import jakarta.persistence.*;
 import java.util.List;
 import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Product {
@@ -27,14 +28,27 @@ public class Product {
     @JoinTable(name = "product_feature", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "feature_id"))
     private List<Feature> features = new ArrayList<>();
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Booking> bookings = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Review> reviews = new ArrayList<>();
+
+    
+
     public Product() {
     }
 
-    public Product(String name, String description, List<String> imageUrls, Category category) {
+    public Product(String name, String description, List<String> imageUrls, Category category, List<Feature> features, List<Booking> bookings, List<Review> reviews) {
         this.name = name;
         this.description = description;
         this.imageUrls = imageUrls;
         this.category = category;
+        this.features = features;
+        this.bookings = bookings;
+        this.reviews = reviews;
     }
 
     public Long getId() {
@@ -83,6 +97,14 @@ public class Product {
 
     public void setFeatures(List<Feature> features) {
         this.features = features;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
     }
 
 }

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const AddProduct = () => {
   const [product, setProduct] = useState({
@@ -15,6 +16,8 @@ const AddProduct = () => {
   const [features, setFeatures] = useState([]);
   const [imageFiles, setImageFiles] = useState([]);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -95,6 +98,7 @@ const AddProduct = () => {
     } catch (error) {
       setError(error.response?.data || "Error al agregar el producto");
     }
+    navigate("/");
   };
 
   return (
